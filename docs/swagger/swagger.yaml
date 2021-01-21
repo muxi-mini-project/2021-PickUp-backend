@@ -1,0 +1,676 @@
+swagger: "2.0"
+info:
+  description: "这里是由木犀团队开发的mini-project!"
+  version: "1.0.0"
+  title: "PICKUP 顺风车"
+  termsOfService: "http://work.muxi-tech.xyz/project"
+  contact:
+    email: "1563925535@qq.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+tags:
+    - name: "users"
+      description: "一切与用户相关的功能"
+    - name: "diver"
+      description: "一切与用户相关的功能"
+    - name: "passenger"
+      description: "一切与用户相关的功能"
+    - name: "route"
+      description: "一切与路程相关的功能"
+schema:
+  - "https"   
+paths:
+  /users/forget:
+    get:
+      tags:
+        - "users"
+      summary: "用户忘记密码"
+      description: "用户修改新密码,首先要先输入原手机号,然后输入验证码,然后输入新密码"
+      operationId: "forgetPassword"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "oldphone"
+        in: "query"
+        description: "用户的原手机号"
+        required: true
+        type: "string"
+      - name: "securitycode"
+        in: "query"
+        description: "手机验证码"
+        required: true
+        type: "string"
+      - name: "newphone"
+        in: "query"
+        description: "用户的新密码"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "修改成功"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "原手机号输入错误/验证码错误"
+  /users/comment:
+    get:
+      tags:
+        - "users"
+      summary: "用户订单"
+      parameters:
+        - name: "token"
+          description: "token"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "获取成功"
+          schema:
+            $ref: "#/definitions/Comment"
+        "404":
+          description: "没有该资源"
+        "401":
+          description: "token错误，没有权限"
+    put:
+      tags:
+      - "users"
+      summary: "评价"
+      description: "评价行程,乘客,司机,分为分数评价和语句评价"
+      operationId: "usersComment"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "更新后"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        "200":
+          description: "成功"
+        "400":
+          description: "非法输入"
+        "404":
+          description: "用户不存在"
+  /route:
+    get:
+      tags:
+        - "route"
+      summary: "常用路线"
+      parameters:
+        - name: "token"
+          description: "token"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "获取成功"
+          schema:
+            $ref: "#/definitions/Route"
+        "404":
+          description: "没有该资源"
+        "401":
+          description: "token错误，没有权限"
+    post:
+      tags:
+      - "route"
+      summary: "创建新的常用路线"
+      description: ""
+      operationId: "addNewRoute"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+          - in: "body"
+            name: "body"
+            description: "客户需要填写的讯息"
+            required: true
+            schema:
+              $ref: "#/definitions/Route"
+      responses:
+        default:
+          description: "ok"
+    delete:
+      tags:
+      - "route"
+      summary: "删除常用路线"
+      description: ""
+      operationId: "deleteRoute"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: '{"msg":"success"} 成功'
+          schema:
+            $ref: '#/definitions/Result'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败重新登录'
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            $ref: '#/definitions/Error'
+  /passenger/confirm:
+    post:
+      tags:
+      - "passenger"
+      summary: "乘客确认"
+      description: "来自乘客的确认,注意乘客先确认!司机后确认!!"
+      operationId: "passengerConfirm"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+          - in: "body"
+            name: "body"
+            description: "客户需要填写的讯息"
+            required: true
+            schema:
+              $ref: "#/definitions/Confirm1"
+      responses:
+        default:
+          description: "ok"
+  /diver/confirm:
+    post:
+      tags:
+      - "diver"
+      summary: "司机确认"
+      description: "来自司机的确认,注意乘客先确认!司机后确认!!"
+      operationId: "diverConfirm"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+          - in: "body"
+            name: "body"
+            description: "司机需要填写的讯息"
+            required: true
+            schema:
+              $ref: "#/definitions/Confirm2"
+      responses:
+        default:
+          description: "ok"
+  /passenger:
+    get:
+      tags:
+        - "passenger"
+      summary: "用户订单"
+      parameters:
+        - name: "token"
+          description: "token"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "获取成功"
+          schema:
+            $ref: "#/definitions/Requirement2"
+        "404":
+          description: "没有该资源"
+        "401":
+          description: "token错误，没有权限"
+    post:
+      tags:
+      - "passenger"
+      summary: "添加一个新的客户订单"
+      description: ""
+      operationId: "addPassengerRequire"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+          - in: "body"
+            name: "body"
+            description: "客户需要填写的讯息"
+            required: true
+            schema:
+              $ref: "#/definitions/Requirement2"
+      responses:
+        default:
+          description: "发布成功"
+  /users/login:
+    get:
+      tags:
+      - "users"
+      summary: "用户登录"
+      description: ""
+      operationId: "loginUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "number"
+        in: "query"
+        description: "用户的账号"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "用户的密码"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: '{"msg":"success", "token": string}'
+          schema:
+            $ref: '#/definitions/Result'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: '{"error_code":"20001", "message":"Password or account wrong."}登录失败, {"error_code":"10001", "message":"Token Invalid."} 身份认证失败 重新登录'
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            $ref: '#/definitions/Error'
+  /diver:
+    get:
+      tags:
+        - "diver"
+      summary: "司机订单"
+      parameters:
+        - name: "token"
+          description: "token"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "获取成功"
+          schema:
+            $ref: "#/definitions/Requirement1"
+        "404":
+          description: "没有该资源"
+        "401":
+          description: "token错误，没有权限"
+    post:
+      tags:
+      - "diver"
+      summary: "添加一个新的司机订单"
+      description: ""
+      operationId: "addDiverRequire"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+          - in: "body"
+            name: "body"
+            description: "司机需要填写的讯息"
+            required: true
+            schema:
+              $ref: "#/definitions/Requirement1"
+      responses:
+        default:
+          description: "发布成功"
+  /users:
+    post:
+      tags:
+      - "users"
+      summary: "用户注册"
+      description: "新用户手机号注册"
+      operationId: "addNewUsers1"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User1"
+      responses:
+        default:
+          description: "successful operation"
+  /users/qq:
+    post:
+      tags:
+      - "users"
+      summary: "用户注册"
+      description: "新用户QQ注册"
+      operationId: "addNewUsers2"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User2"
+      responses:
+        default:
+          description: "ok"
+  /users/userinformation:
+    get:
+      tags:
+        - "users"
+      summary: "用户主页"
+      parameters:
+        - name: "token"
+          description: "token"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "获取成功"
+          schema:
+            $ref: "#/definitions/User"
+        "404":
+          description: "没有该资源"
+        "401":
+          description: "token错误，没有权限"
+    put:
+      tags:
+      - "users"
+      summary: "更新用户信息"
+      description: "更新用户信息"
+      operationId: "updateUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "更新后"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "成功"
+        "400":
+          description: "非法名称"
+        "404":
+          description: "用户不存在"
+  /users/password:
+    get:
+      tags:
+        - "users"
+      summary: "用户修改密码"
+      description: "用户修改密码,首先要先输入原密码"
+      operationId: "updatePassword"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "oldpassword"
+        in: "query"
+        description: "用户的原密码"
+        required: true
+        type: "string"
+      - name: "newpassword"
+        in: "query"
+        description: "用户的新密码"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "修改成功"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "原密码输入错误"
+  /users/phone:
+    get:
+      tags:
+        - "users"
+      summary: "用户修改手机号"
+      description: "用户修改手机号,首先要先输入原手机号,然后输入验证码,然后输入新手机号"
+      operationId: "updatePhone"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "oldphone"
+        in: "query"
+        description: "用户的原手机号"
+        required: true
+        type: "string"
+      - name: "securitycode"
+        in: "query"
+        description: "手机验证码"
+        required: true
+        type: "string"
+      - name: "newphone"
+        in: "query"
+        description: "用户的新手机号"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "修改成功"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        "400":
+          description: "原手机号输入错误/验证码错误"
+definitions:
+  Result:
+    type: "object"
+    properties:
+      msg:
+        type: "string"
+      token:
+        type: "string"
+        description: "登陆成功保留的token,实则为id"       
+  Error:
+    type: "object"
+    properties:
+      error_code:
+        type: "string"
+      message:
+        type: "string"
+  Comment:
+    type: "object"
+    properties:
+      diverscore:
+        type: "number"
+        format: "float"
+      divernotes:
+        type: "string"
+      passengerscore:
+        type: "number"
+        format: "float"
+      passengernotes:
+        type: "string"
+      routescore:
+        type: "number"
+        format: "float"
+      routenotes:
+        type: "string"
+  Route:
+    type: "object"
+    properties:
+      startSpot:
+        type: "string"
+      endSpot:
+        type: "string"
+      startTime:
+        type: "string"
+      endTime:
+        type: "string"
+      notes:
+        type: "string"
+  Confirm2:
+    type: "object"
+    properties:
+      attitude:
+        type: "integer"
+        format: "int32"
+  Confirm1:
+    type: "object"
+    properties:
+      attitude:
+        type: "integer"
+        format: "int32"
+  Requirement2:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      passengerId:
+        type: "integer"
+        format: "int64"
+      startSpot:
+        type: "string"
+      endSpot:
+        type: "string"
+      startTime:
+        type: "string"
+      endTime:
+        type: "string"
+      notes:
+        type: "string"
+      status:
+        type: "integer"
+        format: "int32"
+      urgent:
+        type: "integer"
+        format: "int32"
+  Requirement1:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      diverId:
+        type: "integer"
+        format: "int64"
+      startSpot:
+        type: "string"
+      startTime:
+        type: "string"
+      endTime:
+        type: "string"
+      passingSpots:
+        type: "string"
+      notes:
+        type: "string"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "User Status"
+    xml:
+      name: "Requirement"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      password:
+        type: "string"
+      gender:
+        type: "string"
+      username:
+        type: "string"
+      qq:
+        type: "string"
+      picture:
+        type: "string"
+      phone:
+        type: "string"
+      studentNumber:
+        type: "string"
+      userStatus:
+        type: "integer"
+        format: "int32"
+        description: "User Status"
+    xml:
+      name: "User"
+  User1:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+      phone:
+        type: "string"
+      securitycode:
+        type: "string"
+    xml:
+      name: "User1"
+  User2:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+      username:
+        type: "string"
+      qq:
+        type: "string"
+    xml:
+      name: "User2"
