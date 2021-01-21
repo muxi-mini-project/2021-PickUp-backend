@@ -5,10 +5,7 @@ info:
   title: "PICKUP 顺风车"
   termsOfService: "http://work.muxi-tech.xyz/project"
   contact:
-    email: "1563925535@qq.com"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    email: "1@qq.com"
 host: "localhost"
 basePath: "/v1"
 tags:
@@ -20,8 +17,8 @@ tags:
       description: "一切与用户相关的功能"
     - name: "route"
       description: "一切与路程相关的功能"
-schema:
-  - "https"   
+schemes:
+- "https"
 paths:
   /users/forget:
     get:
@@ -69,7 +66,7 @@ paths:
     get:
       tags:
         - "users"
-      summary: "用户订单"
+      summary: "用户评价"
       parameters:
         - name: "token"
           description: "token"
@@ -268,6 +265,36 @@ paths:
       responses:
         default:
           description: "发布成功"
+    delete:
+      tags:
+      - "passenger"
+      summary: "删除订单"
+      description: ""
+      operationId: "deleteRequirement2"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: '{"msg":"success"} 成功'
+          schema:
+            $ref: '#/definitions/Result'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败重新登录'
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            $ref: '#/definitions/Error'
   /users/login:
     get:
       tags:
@@ -349,12 +376,42 @@ paths:
       responses:
         default:
           description: "发布成功"
+    delete:
+      tags:
+      - "diver"
+      summary: "删除订单"
+      description: ""
+      operationId: "deleteRequirement1"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: '{"msg":"success"} 成功'
+          schema:
+            $ref: '#/definitions/Result'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败重新登录'
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            $ref: '#/definitions/Error'
   /users:
     post:
       tags:
       - "users"
       summary: "用户注册"
-      description: "新用户手机号注册"
+      description: "新用户注册"
       operationId: "addNewUsers1"
       consumes:
       - "application/json"
@@ -372,29 +429,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-  /users/qq:
-    post:
-      tags:
-      - "users"
-      summary: "用户注册"
-      description: "新用户QQ注册"
-      operationId: "addNewUsers2"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Created user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User2"
-      responses:
-        default:
-          description: "ok"
   /users/userinformation:
     get:
       tags:
@@ -525,7 +559,7 @@ definitions:
         type: "string"
       token:
         type: "string"
-        description: "登陆成功保留的token,实则为id"       
+        description: "登陆成功保留的token,实则为id"
   Error:
     type: "object"
     properties:
@@ -629,9 +663,6 @@ definitions:
   User:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        format: "int64"
       password:
         type: "string"
       gender:
@@ -655,22 +686,9 @@ definitions:
   User1:
     type: "object"
     properties:
+      studentID:
+        type: "string"
       password:
-        type: "string"
-      phone:
-        type: "string"
-      securitycode:
         type: "string"
     xml:
       name: "User1"
-  User2:
-    type: "object"
-    properties:
-      password:
-        type: "string"
-      username:
-        type: "string"
-      qq:
-        type: "string"
-    xml:
-      name: "User2"
