@@ -44,4 +44,6 @@ func router() {
 	r.POST("/route/{route_id}", addNewRoute)
 	r.GET("/route/{route_id}")
 	r.DELETE("/route/{route_id}", deleteRoute)
+
+	r.Run()
 }
