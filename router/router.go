@@ -14,7 +14,7 @@ func Router() {
 	r.POST("/users/login", LoginUser)
 
 	//用户主页及其信息修改
-	r.GET("/users/{user_id}")
+	r.GET("/users/{user_id}", ViewUser)
 	r.PUT("/users/{user_id}", UpdateUser)
 
 	//用户修改密码
@@ -22,7 +22,7 @@ func Router() {
 
 	//用户评价
 	r.PUT("/users/comment/{comment_id}", UsersComment)
-	r.GET("/users/comment/{comment_id}")
+	r.GET("/users/comment/{comment_id}", ViewComment)
 
 	//司机订单
 	r.POST("/driver", AddDriverRequirement)
@@ -42,7 +42,7 @@ func Router() {
 
 	//常用路径
 	r.POST("/route/{route_id}", addNewRoute)
-	r.GET("/route/{route_id}")
+	r.GET("/route/{route_id}", ViewRoute)
 	r.DELETE("/route/{route_id}", deleteRoute)
 
 	r.Run()
