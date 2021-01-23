@@ -45,20 +45,27 @@
                 "1":"application\/json",
                 "parameters":"",
                 "2":{
+                    "name":"token",
+                    "in":"header",
+                    "description":"token",
+                    "required":true,
+                    "type":"string"
+                },
+                "3":{
                     "name":"oldphone",
                     "in":"query",
                     "description":"\u7528\u6237\u7684\u539f\u624b\u673a\u53f7",
                     "required":true,
                     "type":"string"
                 },
-                "3":{
+                "4":{
                     "name":"securitycode",
                     "in":"query",
                     "description":"\u624b\u673a\u9a8c\u8bc1\u7801",
                     "required":true,
                     "type":"string"
                 },
-                "4":{
+                "5":{
                     "name":"newphone",
                     "in":"query",
                     "description":"\u7528\u6237\u7684\u65b0\u5bc6\u7801",
@@ -90,13 +97,19 @@
                 }
             }
         },
-        "\/users\/comment":{
+        "\/users\/comment\/{user_id}":{
             "get":{
                 "tags":[
                     "users"
                 ],
                 "summary":"\u7528\u6237\u8bc4\u4ef7",
                 "parameters":[
+                    {
+                        "name":"user_id",
+                        "in":"path",
+                        "required":true,
+                        "type":"string"
+                    },
                     {
                         "name":"token",
                         "description":"token",
@@ -131,6 +144,19 @@
                 "2":"application\/json",
                 "parameters":"",
                 "3":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "4":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "5":{
                     "in":"body",
                     "name":"body",
                     "description":"\u66f4\u65b0\u540e",
@@ -152,21 +178,26 @@
                 }
             }
         },
-        "\/route":{
+        "\/route\/{user_id}":{
             "get":{
                 "tags":[
                     "route"
                 ],
                 "summary":"\u5e38\u7528\u8def\u7ebf",
-                "parameters":[
-                    {
-                        "name":"token",
-                        "description":"token",
-                        "in":"header",
-                        "required":true,
-                        "type":"string"
-                    }
-                ],
+                "parameters":"",
+                "0":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "1":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
                 "responses":{
                     "200":{
                         "description":"\u83b7\u53d6\u6210\u529f",
@@ -194,17 +225,29 @@
                 "produces":"",
                 "3":"application\/xml",
                 "4":"application\/json",
-                "parameters":[
-                    {
-                        "in":"body",
-                        "name":"body",
-                        "description":"\u5ba2\u6237\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
-                        "required":true,
-                        "schema":{
-                            "$ref":"#\/definitions\/Route"
-                        }
+                "parameters":"",
+                "5":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "6":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "7":{
+                    "in":"body",
+                    "name":"body",
+                    "description":"\u5ba2\u6237\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/Route"
                     }
-                ],
+                },
                 "responses":{
                     "default":{
                         "description":"ok"
@@ -223,6 +266,20 @@
                 "produces":"",
                 "3":"application\/xml",
                 "4":"application\/json",
+                "parameters":"",
+                "5":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "6":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
                 "responses":{
                     "200":{
                         "description":"{\"msg\":\"success\"} \u6210\u529f",
@@ -253,7 +310,7 @@
                 }
             }
         },
-        "\/passenger\/confirm":{
+        "\/passenger\/confirm\/{user_id}":{
             "post":{
                 "tags":"",
                 "0":"passenger",
@@ -266,17 +323,29 @@
                 "produces":"",
                 "3":"application\/xml",
                 "4":"application\/json",
-                "parameters":[
-                    {
-                        "in":"body",
-                        "name":"body",
-                        "description":"\u5ba2\u6237\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
-                        "required":true,
-                        "schema":{
-                            "$ref":"#\/definitions\/Confirm1"
-                        }
+                "parameters":"",
+                "5":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "6":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "7":{
+                    "in":"body",
+                    "name":"body",
+                    "description":"\u5ba2\u6237\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/Confirm1"
                     }
-                ],
+                },
                 "responses":{
                     "default":{
                         "description":"ok"
@@ -284,7 +353,7 @@
                 }
             }
         },
-        "\/diver\/confirm":{
+        "\/diver\/confirm\/{user_id}":{
             "post":{
                 "tags":"",
                 "0":"diver",
@@ -297,17 +366,29 @@
                 "produces":"",
                 "3":"application\/xml",
                 "4":"application\/json",
-                "parameters":[
-                    {
-                        "in":"body",
-                        "name":"body",
-                        "description":"\u53f8\u673a\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
-                        "required":true,
-                        "schema":{
-                            "$ref":"#\/definitions\/Confirm2"
-                        }
+                "parameters":"",
+                "5":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "6":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "7":{
+                    "in":"body",
+                    "name":"body",
+                    "description":"\u5ba2\u6237\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/Confirm2"
                     }
-                ],
+                },
                 "responses":{
                     "default":{
                         "description":"ok"
@@ -315,21 +396,34 @@
                 }
             }
         },
-        "\/passenger":{
+        "\/passenger\/{user_id}":{
             "get":{
                 "tags":[
                     "passenger"
                 ],
                 "summary":"\u7528\u6237\u8ba2\u5355",
-                "parameters":[
-                    {
-                        "name":"token",
-                        "description":"token",
-                        "in":"header",
-                        "required":true,
-                        "type":"string"
+                "parameters":"",
+                "0":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "1":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "2":{
+                    "name":"requirment_id",
+                    "in":"body",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/requirement"
                     }
-                ],
+                },
                 "responses":{
                     "200":{
                         "description":"\u83b7\u53d6\u6210\u529f",
@@ -357,17 +451,29 @@
                 "produces":"",
                 "3":"application\/xml",
                 "4":"application\/json",
-                "parameters":[
-                    {
-                        "in":"body",
-                        "name":"body",
-                        "description":"\u5ba2\u6237\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
-                        "required":true,
-                        "schema":{
-                            "$ref":"#\/definitions\/Requirement2"
-                        }
+                "parameters":"",
+                "5":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "6":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "7":{
+                    "in":"body",
+                    "name":"body",
+                    "description":"\u5ba2\u6237\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/Requirement2"
                     }
-                ],
+                },
                 "responses":{
                     "default":{
                         "description":"\u53d1\u5e03\u6210\u529f"
@@ -386,6 +492,28 @@
                 "produces":"",
                 "3":"application\/xml",
                 "4":"application\/json",
+                "parameters":"",
+                "5":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "6":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "7":{
+                    "name":"requirment_id",
+                    "in":"body",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/requirement"
+                    }
+                },
                 "responses":{
                     "200":{
                         "description":"{\"msg\":\"success\"} \u6210\u529f",
@@ -471,21 +599,34 @@
                 }
             }
         },
-        "\/diver":{
+        "\/diver\/{user_id}":{
             "get":{
                 "tags":[
                     "diver"
                 ],
                 "summary":"\u53f8\u673a\u8ba2\u5355",
-                "parameters":[
-                    {
-                        "name":"token",
-                        "description":"token",
-                        "in":"header",
-                        "required":true,
-                        "type":"string"
+                "parameters":"",
+                "0":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "1":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "2":{
+                    "name":"requirment_id",
+                    "in":"body",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/requirement"
                     }
-                ],
+                },
                 "responses":{
                     "200":{
                         "description":"\u83b7\u53d6\u6210\u529f",
@@ -513,17 +654,29 @@
                 "produces":"",
                 "3":"application\/xml",
                 "4":"application\/json",
-                "parameters":[
-                    {
-                        "in":"body",
-                        "name":"body",
-                        "description":"\u53f8\u673a\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
-                        "required":true,
-                        "schema":{
-                            "$ref":"#\/definitions\/Requirement1"
-                        }
+                "parameters":"",
+                "5":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "6":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "7":{
+                    "in":"body",
+                    "name":"body",
+                    "description":"\u53f8\u673a\u9700\u8981\u586b\u5199\u7684\u8baf\u606f",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/Requirement1"
                     }
-                ],
+                },
                 "responses":{
                     "default":{
                         "description":"\u53d1\u5e03\u6210\u529f"
@@ -542,6 +695,28 @@
                 "produces":"",
                 "3":"application\/xml",
                 "4":"application\/json",
+                "parameters":"",
+                "5":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "6":{
+                    "name":"token",
+                    "description":"token",
+                    "in":"header",
+                    "required":true,
+                    "type":"string"
+                },
+                "7":{
+                    "name":"requirment_id",
+                    "in":"body",
+                    "required":true,
+                    "schema":{
+                        "$ref":"#\/definitions\/requirement"
+                    }
+                },
                 "responses":{
                     "200":{
                         "description":"{\"msg\":\"success\"} \u6210\u529f",
@@ -602,7 +777,7 @@
                 }
             }
         },
-        "\/users\/userinformation":{
+        "\/users\/{user_id}":{
             "get":{
                 "tags":[
                     "users"
@@ -613,6 +788,12 @@
                         "name":"token",
                         "description":"token",
                         "in":"header",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"user_id",
+                        "in":"path",
                         "required":true,
                         "type":"string"
                     }
@@ -643,6 +824,12 @@
                 "2":"application\/json",
                 "parameters":"",
                 "3":{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                },
+                "4":{
                     "in":"body",
                     "name":"body",
                     "description":"\u66f4\u65b0\u540e",
@@ -677,13 +864,20 @@
                 "1":"application\/json",
                 "parameters":"",
                 "2":{
+                    "name":"token",
+                    "in":"header",
+                    "description":"token",
+                    "required":true,
+                    "type":"string"
+                },
+                "3":{
                     "name":"oldpassword",
                     "in":"query",
                     "description":"\u7528\u6237\u7684\u539f\u5bc6\u7801",
                     "required":true,
                     "type":"string"
                 },
-                "3":{
+                "4":{
                     "name":"newpassword",
                     "in":"query",
                     "description":"\u7528\u6237\u7684\u65b0\u5bc6\u7801",
@@ -728,20 +922,27 @@
                 "1":"application\/json",
                 "parameters":"",
                 "2":{
+                    "name":"token",
+                    "in":"header",
+                    "description":"token",
+                    "required":true,
+                    "type":"string"
+                },
+                "3":{
                     "name":"oldphone",
                     "in":"query",
                     "description":"\u7528\u6237\u7684\u539f\u624b\u673a\u53f7",
                     "required":true,
                     "type":"string"
                 },
-                "3":{
+                "4":{
                     "name":"securitycode",
                     "in":"query",
                     "description":"\u624b\u673a\u9a8c\u8bc1\u7801",
                     "required":true,
                     "type":"string"
                 },
-                "4":{
+                "5":{
                     "name":"newphone",
                     "in":"query",
                     "description":"\u7528\u6237\u7684\u65b0\u624b\u673a\u53f7",
@@ -775,6 +976,14 @@
         }
     },
     "definitions":{
+        "requirement":{
+            "type":"object",
+            "properties":{
+                "id":{
+                    "type":"string"
+                }
+            }
+        },
         "Result":{
             "type":"object",
             "properties":{

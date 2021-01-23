@@ -31,6 +31,11 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
+      - name: "token"
+        in: "header"
+        description: "token"
+        required: true
+        type: "string"
       - name: "oldphone"
         in: "query"
         description: "用户的原手机号"
@@ -62,12 +67,16 @@ paths:
               description: "date in UTC when token expires"
         "400":
           description: "原手机号输入错误/验证码错误"
-  /users/comment:
+  /users/comment/{user_id}:
     get:
       tags:
         - "users"
       summary: "用户评价"
       parameters:
+        - name: "user_id"
+          in: "path"
+          required: true
+          type: "string"
         - name: "token"
           description: "token"
           in: "header"
@@ -92,6 +101,15 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
       - in: "body"
         name: "body"
         description: "更新后"
@@ -105,17 +123,21 @@ paths:
           description: "非法输入"
         "404":
           description: "用户不存在"
-  /route:
+  /route/{user_id}:
     get:
       tags:
         - "route"
       summary: "常用路线"
       parameters:
-        - name: "token"
-          description: "token"
-          in: "header"
-          required: true
-          type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
       responses:
         "200":
           description: "获取成功"
@@ -138,12 +160,21 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-          - in: "body"
-            name: "body"
-            description: "客户需要填写的讯息"
-            required: true
-            schema:
-              $ref: "#/definitions/Route"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "客户需要填写的讯息"
+        required: true
+        schema:
+          $ref: "#/definitions/Route"
       responses:
         default:
           description: "ok"
@@ -159,6 +190,16 @@ paths:
       produces:
       - "application/xml"
       - "application/json"
+      parameters:
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
       responses:
         "200":
           description: '{"msg":"success"} 成功'
@@ -177,7 +218,7 @@ paths:
           description: '{"error_code":"30001", "message":"Fail."} 失败'
           schema:
             $ref: '#/definitions/Error'
-  /passenger/confirm:
+  /passenger/confirm/{user_id}:
     post:
       tags:
       - "passenger"
@@ -191,16 +232,25 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-          - in: "body"
-            name: "body"
-            description: "客户需要填写的讯息"
-            required: true
-            schema:
-              $ref: "#/definitions/Confirm1"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "客户需要填写的讯息"
+        required: true
+        schema:
+          $ref: "#/definitions/Confirm1"
       responses:
         default:
           description: "ok"
-  /diver/confirm:
+  /diver/confirm/{user_id}:
     post:
       tags:
       - "diver"
@@ -214,26 +264,44 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-          - in: "body"
-            name: "body"
-            description: "司机需要填写的讯息"
-            required: true
-            schema:
-              $ref: "#/definitions/Confirm2"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "客户需要填写的讯息"
+        required: true
+        schema:
+          $ref: "#/definitions/Confirm2"
       responses:
         default:
           description: "ok"
-  /passenger:
+  /passenger/{user_id}:
     get:
       tags:
         - "passenger"
       summary: "用户订单"
       parameters:
-        - name: "token"
-          description: "token"
-          in: "header"
-          required: true
-          type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "requirment_id"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/requirement"
       responses:
         "200":
           description: "获取成功"
@@ -256,12 +324,21 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-          - in: "body"
-            name: "body"
-            description: "客户需要填写的讯息"
-            required: true
-            schema:
-              $ref: "#/definitions/Requirement2"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "客户需要填写的讯息"
+        required: true
+        schema:
+          $ref: "#/definitions/Requirement2"
       responses:
         default:
           description: "发布成功"
@@ -277,6 +354,21 @@ paths:
       produces:
       - "application/xml"
       - "application/json"
+      parameters:
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "requirment_id"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/requirement"
       responses:
         "200":
           description: '{"msg":"success"} 成功'
@@ -334,17 +426,26 @@ paths:
           description: '{"error_code":"30001", "message":"Fail."} 失败'
           schema:
             $ref: '#/definitions/Error'
-  /diver:
+  /diver/{user_id}:
     get:
       tags:
         - "diver"
       summary: "司机订单"
       parameters:
-        - name: "token"
-          description: "token"
-          in: "header"
-          required: true
-          type: "string"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "requirment_id"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/requirement"
       responses:
         "200":
           description: "获取成功"
@@ -367,12 +468,21 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-          - in: "body"
-            name: "body"
-            description: "司机需要填写的讯息"
-            required: true
-            schema:
-              $ref: "#/definitions/Requirement1"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "司机需要填写的讯息"
+        required: true
+        schema:
+          $ref: "#/definitions/Requirement1"
       responses:
         default:
           description: "发布成功"
@@ -388,6 +498,21 @@ paths:
       produces:
       - "application/xml"
       - "application/json"
+      parameters:
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "requirment_id"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/requirement"
       responses:
         "200":
           description: '{"msg":"success"} 成功'
@@ -429,7 +554,7 @@ paths:
       responses:
         default:
           description: "successful operation"
-  /users/userinformation:
+  /users/{user_id}:
     get:
       tags:
         - "users"
@@ -438,6 +563,10 @@ paths:
         - name: "token"
           description: "token"
           in: "header"
+          required: true
+          type: "string"
+        - name: "user_id"
+          in: "path"
           required: true
           type: "string"
       responses:
@@ -459,6 +588,10 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
       - in: "body"
         name: "body"
         description: "更新后"
@@ -483,6 +616,11 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
+      - name: "token"
+        in: "header"
+        description: "token"
+        required: true
+        type: "string"
       - name: "oldpassword"
         in: "query"
         description: "用户的原密码"
@@ -520,6 +658,11 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
+      - name: "token"
+        in: "header"
+        description: "token"
+        required: true
+        type: "string"
       - name: "oldphone"
         in: "query"
         description: "用户的原手机号"
@@ -552,6 +695,11 @@ paths:
         "400":
           description: "原手机号输入错误/验证码错误"
 definitions:
+  requirement:
+    type: "object"
+    properties:
+      id:
+        type: "string"
   Result:
     type: "object"
     properties:
