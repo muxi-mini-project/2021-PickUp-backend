@@ -5,20 +5,19 @@ use PICKUP;
 --用户信息表--
 drop table if exists `users`;
 create table if not exists  `users`(
-   `id` int unsigned auto_increment,
+   `sid` varchar(100) not null,
+   `nick_name` varchar(100) not null,
    `password` varchar(100) not null,
-   `number` varchar null,
-   `gender` tinyint not null,
-   `username` varchar(100) not null,
-   `qq` varchar(100) null,
+   `number` varchar(100) null,
+   `gender` int  null,
    `phone` varchar(100) null,
-   `picture` varchar(100) not null,
-   `student_number` varchar(100) null,
-   primary key(`id`)
+   `picture` varchar(100)  null,
+   `notes` varchar(100)  null,
+   primary key(`sid`)
 )engine=innodb default charset=utf8;
 
 --索引--
-create index idx_users_id on users(id);
+create index idx_users_id on users(sid);
 
 --匹配成功表--
 drop table if exists `match`;

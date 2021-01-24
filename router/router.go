@@ -1,49 +1,53 @@
 package router
 
 import (
+	"pickup/handler"
+	"pickup/handler/user"
+
 	"github.com/gin-gonic/gin"
 )
 
-func Router() {
-	r := gin.Default()
+func Router(r *gin.Engine) {
 
-	//注册
-	r.POST("/users", AddNewUsers)
+	r.GET("/text", handler.Text)
+
+	//此函数为一站式登录函数,若用户登录成功(首次),则将其学号和密码保存起来创造一个新用户
+	r.POST("/users", user.UserCreate)
 
 	//登录
-	r.POST("/users/login", LoginUser)
+	r.POST("/users/login", user.UserLogin)
 
-	//用户主页及其信息修改
-	r.GET("/users/{user_id}", ViewUser)
-	r.PUT("/users/{user_id}", UpdateUser)
+	/* //用户主页及其信息修改
+	r.GET("/users/{user_id}", user.ViewUser)
+	/*	r.PUT("/users/{user_id}", handler.UpdateUser)
 
-	//用户修改密码
-	r.PUT("/users/password", UpdatePassword)
+		//用户修改密码
+		r.PUT("/users/password", handler.UpdatePassword)
 
-	//用户评价
-	r.PUT("/users/comment/{comment_id}", UsersComment)
-	r.GET("/users/comment/{comment_id}", ViewComment)
+		//用户评价
+		r.PUT("/users/comment/{comment_id}", handler.UsersComment)
+		r.GET("/users/comment/{comment_id}", handler.ViewComment)
 
-	//司机订单
-	r.POST("/driver", AddDriverRequirement)
-	r.GET("/driver")
-	r.DELETE("/driver", DeleteDriverRequirement)
+		//司机订单
+		r.POST("/driver", handler.AddDriverRequirement)
+		r.GET("/driver",handler.ViewDriverRequirement)
+		r.DELETE("/driver", handler.DeleteDriverRequirement)
 
-	//司机确认(注意乘客先确认,司机后确认)
-	r.POST("​/driver​/confirm​/{confirm_id}", driverConfirm)
+		//司机确认(注意乘客先确认,司机后确认)
+		r.POST("​/driver​/confirm​/{confirm_id}", handler.DriverConfirm)
 
-	//乘客订单
-	r.POST("/passenger", addPassengerRequirement)
-	r.GET("/passenger")
-	r.DELETE("/passenger", deletePassengerRequirement)
+		//乘客订单
+		r.POST("/passenger", handler.AddPassengerRequirement)
+		r.GET("/passenger")
+		r.DELETE("/passenger", handler.DeletePassengerRequirement)
 
-	//乘客确认
-	r.POST("/passenger/confirm/{confirm_id}", passengerConfirm)
+		//乘客确认
+		r.POST("/passenger/confirm/{confirm_id}", handler.PassengerConfirm)
 
-	//常用路径
-	r.POST("/route/{route_id}", addNewRoute)
-	r.GET("/route/{route_id}", ViewRoute)
-	r.DELETE("/route/{route_id}", deleteRoute)
+		//常用路径
+		r.POST("/route/{route_id}", handler.AddNewRoute)
+		r.GET("/route/{route_id}", handler.ViewRoute)
+		r.DELETE("/route/{route_id}", handler.DeleteRoute)
+	*/
 
-	r.Run()
 }
