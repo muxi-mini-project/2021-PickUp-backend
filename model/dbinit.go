@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-const dns = "root:123456@tcp(127.0.0.1:3306)/users"
+//const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
 
 var Db *Database
 

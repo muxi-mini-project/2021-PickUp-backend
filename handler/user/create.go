@@ -2,15 +2,15 @@ package user
 
 import (
 	"fmt"
+	"log"
 	handler "pickup/handler/err"
 	"pickup/model"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 )
-
-const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
 
 func UserCreate(c *gin.Context) {
 	var tmpUser model.SuInfo
@@ -37,14 +37,8 @@ func UserCreate(c *gin.Context) {
 		Notes:    "null",
 	}
 
-	db, err := gorm.Open("mysql", dsn)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	db.Create(&user)
-	ok := db.NewRecord(user)
-	if ok {
+	ok := model.CreateUser(user)
+	if ok != nil {
 		c.JSON(200, gin.H{
 			"msg": "try_again",
 		})
@@ -55,12 +49,42 @@ func UserCreate(c *gin.Context) {
 		"msg":   "success",
 		"token": produceToken(tmpUser.User.Usernumber),
 	})
-	defer db.Close()
 	return
 }
 
-func produceToken(s string) string {
-	token := s + "233"
-
-	return token
+func produceToken(uid string) string {
+	//id, _ := strconv.Atoi(uid)
+	claims := &jwtClaims{
+		Uid: uid,
+	}
+	claims.IssuedAt = time.Now().Unix()
+	claims.ExpiresAt = time.Now().Add(time.Second * time.Duration(ExpireTime)).Unix()
+	singedToken, err := genToken(*claims)
+	//fmt.Println(singedToken, err)
+	if err != nil {
+		log.Print("produceToken err:")
+		fmt.Println(err)
+		return ""
+	}
+	return singedToken
 }
+
+func genToken(claims jwtClaims) (string, error) {
+	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	signedToken, err := token.SignedString([]byte(key))
+	if err != nil {
+		return "", err
+	}
+	return signedToken, nil
+}
+
+type jwtClaims struct {
+	jwt.StandardClaims
+	Uid string `json:"uid"`
+}
+
+var (
+	key        = "miniProject" //salt
+	ExpireTime = 3600          //token expire time
+)
