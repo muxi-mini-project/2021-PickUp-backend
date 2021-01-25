@@ -17,7 +17,7 @@ func Router(r *gin.Engine) {
 	//登录
 	r.POST("/users/login", user.UserLogin)
 
-	/* //用户主页及其信息修改
+	//用户主页及其信息修改
 	r.GET("/users/{user_id}", user.ViewUser)
 	/*	r.PUT("/users/{user_id}", handler.UpdateUser)
 

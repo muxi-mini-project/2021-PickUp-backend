@@ -6,20 +6,19 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"github.com/spf13/viper"
 )
 
-//const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
+const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
 
 var Db *Database
 
 func getDatabase() (*gorm.DB, error) {
-	dns := fmt.Sprintf("%s:%s@tcp(%s)/mini_project",
-		viper.GetString("db.username"),
-		viper.GetString("db.password"),
-		viper.GetString("db.addr"))
+	/*dns := fmt.Sprintf("%s:%s@tcp(%s)/mini_project",
+	viper.GetString("db.username"),
+	viper.GetString("db.password"),
+	viper.GetString("db.addr"))*/
 	//dns := fmt.Sprintf("%s:%s@tcp(localhost:3306)/mini_project", os.Getenv("DBUser"), os.Getenv("DBPassword"))
-	db, err := gorm.Open("mysql", dns)
+	db, err := gorm.Open("mysql", dsn)
 	if err != nil {
 		fmt.Print("getDatabase")
 		log.Println(err)

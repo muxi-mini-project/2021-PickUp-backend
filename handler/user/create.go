@@ -29,11 +29,11 @@ func UserCreate(c *gin.Context) {
 
 	user := model.Users{
 		Sid:      tmpUser.User.Usernumber,
-		NickName: tmpUser.User.DeptName,
+		NickName: tmpUser.User.Name,
 		Password: tmpLoginInfo.Pwd,
 		Gender:   3,
 		Phone:    "null",
-		Picture:  tmpLoginInfo.Pwd,
+		Picture:  tmpLoginInfo.Sid,
 		Notes:    "null",
 	}
 

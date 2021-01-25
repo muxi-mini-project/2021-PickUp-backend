@@ -7,22 +7,17 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
+//const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
 
 func CreateUser(tmpUser Users) error {
 
-	db, err := gorm.Open("mysql", dsn)
-	if err != nil {
-		fmt.Println(err)
-	}
 	var tooluser Users
-	err2 := db.Where(&Users{Sid: tmpUser.Sid}).Find(&tooluser).Error
+	err2 := Db.Self.Where(&Users{Sid: tmpUser.Sid}).Find(&tooluser).Error
 	if err2 != nil {
 		log.Println("creat user err: ", err2)
 		return err2
 	}
-	db.Create(&tmpUser)
-	defer db.Close()
+	Db.Self.Create(&tmpUser)
 
 	return nil
 }
@@ -47,4 +42,13 @@ func Login(tmpLogin LoginInfo) int {
 	}
 
 	return 4
+}
+
+func FindUser(uid string) (Users, error) {
+	var tmpUser Users
+	if err := Db.Self.Model(&Users{}).Where(Users{Sid: uid}).Find(&tmpUser).Error; err != nil {
+		return tmpUser, err
+	}
+	return tmpUser, nil
+
 }
