@@ -26,3 +26,25 @@ func CreateUser(tmpUser Users) error {
 
 	return nil
 }
+
+func Login(tmpLogin LoginInfo) int {
+	db, err := gorm.Open("mysql", dsn)
+	if err != nil {
+		fmt.Println(err)
+		return 1
+	}
+	var user Users
+	var logininfo LoginInfo
+	err1 := db.Where(&Users{Sid: tmpLogin.Sid}).Find(&user).Error
+	if err1 != nil {
+		log.Println(err1)
+		return 2
+	}
+	logininfo.Pwd = user.Password
+
+	if logininfo.Pwd != tmpLogin.Pwd {
+		return 3
+	}
+
+	return 4
+}

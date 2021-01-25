@@ -15,4 +15,31 @@ func UserLogin(c *gin.Context) {
 		return
 	}
 
+	ok := model.Login(tmpLoginInfo)
+	if ok == 1 {
+		c.JSON(500, gin.H{
+			"msg": "database does not open successful",
+		})
+		return
+	}
+
+	if ok == 2 {
+		c.JSON(404, gin.H{
+			"msg": "user does not exist",
+		})
+		return
+	}
+
+	if ok == 3 {
+		c.JSON(200, gin.H{
+			"msg": "password does not correct",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"msg":   "success",
+		"token": produceToken(tmpLoginInfo.Pwd),
+	})
+
 }
