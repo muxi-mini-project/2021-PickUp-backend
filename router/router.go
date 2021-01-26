@@ -18,11 +18,11 @@ func Router(r *gin.Engine) {
 	r.POST("/users/login", user.UserLogin)
 
 	//用户主页及其信息修改
-	r.GET("/users/{user_id}", user.ViewUser)
-	/*	r.PUT("/users/{user_id}", handler.UpdateUser)
+	r.GET("/users/:uid", user.ViewUser)
+	r.PUT("/users/:uid/update", user.UpdateUser)
 
-		//用户修改密码
-		r.PUT("/users/password", handler.UpdatePassword)
+	//用户修改密码
+	/*	r.PUT("/users/password", handler.UpdatePassword)
 
 		//用户评价
 		r.PUT("/users/comment/{comment_id}", handler.UsersComment)

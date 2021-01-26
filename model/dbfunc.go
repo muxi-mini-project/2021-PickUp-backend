@@ -52,3 +52,15 @@ func FindUser(uid string) (Users, error) {
 	return tmpUser, nil
 
 }
+
+func Updateuser(tmpUser Users, uid string) error {
+	if err := Db.Self.Model(&Users{}).Where(Users{Sid: uid}).Error; err != nil {
+		return err
+	}
+
+	if err := Db.Self.Model(&Users{}).Where(Users{Sid: uid}).Update(&tmpUser).Error; err != nil {
+		return err
+	}
+	return nil
+
+}

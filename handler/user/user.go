@@ -8,7 +8,7 @@ import (
 )
 
 func ViewUser(c *gin.Context) {
-	uid := c.GetString("uid")
+	uid := c.Param("uid")
 	tmpUser, err := model.FindUser(uid)
 	if err != nil {
 		handler.ErrServerError(c, err)
@@ -24,4 +24,24 @@ func ViewUser(c *gin.Context) {
 		"notes":     tmpUser.Notes,
 	})
 	return
+}
+
+func UpdateUser(c *gin.Context) {
+	uid := c.Param("uid")
+	var tmpchange model.Users
+	err := c.BindJSON(&tmpchange)
+	if err != nil {
+		handler.ErrBadRequest(c, err)
+		return
+	}
+	if err = model.Updateuser(tmpchange, uid); err != nil {
+		handler.ErrUnauthorized(c, err)
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"msg": "success",
+	})
+	return
+
 }
