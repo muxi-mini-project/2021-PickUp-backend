@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/jinzhu/gorm"
 )
@@ -61,6 +62,27 @@ func Updateuser(tmpUser Users, uid string) error {
 	if err := Db.Self.Model(&Users{}).Where(Users{Sid: uid}).Update(&tmpUser).Error; err != nil {
 		return err
 	}
+	return nil
+
+}
+
+func UpdatePwd(tmpChange UpdatePwdinfo, uid string) error {
+	tmpUser, err := FindUser(uid)
+	if err != nil {
+		return err
+	}
+	num := strings.Compare(tmpChange.Old, tmpUser.Password)
+	//fmt.Println(num, tmpChange.Old)
+	if num != 0 {
+		return err
+	}
+	tmpUser.Password = tmpChange.New
+
+	err = Db.Self.Model(&Users{}).Where(Users{Sid: uid}).Update(&tmpUser).Error
+	if err != nil {
+		return err
+	}
+
 	return nil
 
 }

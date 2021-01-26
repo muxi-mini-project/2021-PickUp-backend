@@ -33,3 +33,8 @@ type LoginInfo struct {
 	Sid  string `grom:"sid"`
 	Name string `grom:"name"`
 }*/
+
+type UpdatePwdinfo struct {
+	Old string `json:"old"`
+	New string `json:"new"`
+}

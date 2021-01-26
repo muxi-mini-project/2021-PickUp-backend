@@ -22,9 +22,9 @@ func Router(r *gin.Engine) {
 	r.PUT("/users/:uid/update", user.UpdateUser)
 
 	//用户修改密码
-	/*	r.PUT("/users/password", handler.UpdatePassword)
+	r.PUT("/users/:uid/password", user.UpdatePassword)
 
-		//用户评价
+	/*	//用户评价
 		r.PUT("/users/comment/{comment_id}", handler.UsersComment)
 		r.GET("/users/comment/{comment_id}", handler.ViewComment)
 

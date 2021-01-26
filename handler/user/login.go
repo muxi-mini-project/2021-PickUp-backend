@@ -39,7 +39,7 @@ func UserLogin(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"msg":   "success",
-		"token": produceToken(tmpLoginInfo.Pwd),
+		"token": produceToken(tmpLoginInfo.Sid),
 	})
 
 }

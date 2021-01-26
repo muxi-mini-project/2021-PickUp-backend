@@ -45,3 +45,24 @@ func UpdateUser(c *gin.Context) {
 	return
 
 }
+
+func UpdatePassword(c *gin.Context) {
+	uid := c.Param("uid")
+	var tmpchange model.UpdatePwdinfo
+	err := c.BindJSON(&tmpchange)
+	if err != nil {
+		handler.ErrBadRequest(c, err)
+		return
+	}
+
+	err = model.UpdatePwd(tmpchange, uid)
+	if err != nil {
+		handler.ErrBadRequest(c, err)
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"msg": "success",
+	})
+
+}
