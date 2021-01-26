@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"log"
+	handler "pickup/handler/err"
 	"strings"
 
 	"github.com/jinzhu/gorm"
@@ -72,9 +73,13 @@ func UpdatePwd(tmpChange UpdatePwdinfo, uid string) error {
 		return err
 	}
 	num := strings.Compare(tmpChange.Old, tmpUser.Password)
+
 	//fmt.Println(num, tmpChange.Old)
+	var myerr handler.Error
+	myerr.ErrorCode = "password is not corret"
+	myerr.Message = "bad request!"
 	if num != 0 {
-		return err
+		return &myerr
 	}
 	tmpUser.Password = tmpChange.New
 
