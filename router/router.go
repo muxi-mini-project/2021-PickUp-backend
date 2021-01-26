@@ -2,6 +2,7 @@ package router
 
 import (
 	"pickup/handler"
+	"pickup/handler/driver"
 	"pickup/handler/user"
 
 	"github.com/gin-gonic/gin"
@@ -27,12 +28,12 @@ func Router(r *gin.Engine) {
 	/*	//用户评价
 		r.PUT("/users/comment/{comment_id}", handler.UsersComment)
 		r.GET("/users/comment/{comment_id}", handler.ViewComment)
-
-		//司机订单
-		r.POST("/driver", handler.AddDriverRequirement)
-		r.GET("/driver",handler.ViewDriverRequirement)
-		r.DELETE("/driver", handler.DeleteDriverRequirement)
-
+	*/
+	//司机订单
+	r.POST("/driver", driver.AddDriverRequirement)
+	r.GET("/driver", driver.ViewDriverRequirement)
+	r.DELETE("/driver", driver.DeleteDriverRequirement)
+	/*
 		//司机确认(注意乘客先确认,司机后确认)
 		r.POST("​/driver​/confirm​/{confirm_id}", handler.DriverConfirm)
 

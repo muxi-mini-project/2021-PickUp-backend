@@ -34,7 +34,17 @@ type LoginInfo struct {
 	Name string `grom:"name"`
 }*/
 
-type UpdatePwdinfo struct {
+type UpdatePwdInfo struct {
 	Old string `json:"old"`
 	New string `json:"new"`
+}
+
+type RequireDriver struct {
+	DriverID     string `json:"driver_id" gorm:"driver_id"`
+	StartSpot    string `json:"start_spot" gorm:"start_spot"`
+	StartTime    string `json:"start_time" gorm:"start_time"`
+	EndTime      string `json:"end_time" gorm:"end_time"`
+	PassingSpots string `json:"passing_spots" gorm:"passing_spots"`
+	Notes        string `json:"notes" gorm:"notes"`
+	Status       int    `json:"status" gorm:"status"`
 }

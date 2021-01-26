@@ -17,7 +17,7 @@ func UserCreate(c *gin.Context) {
 	var tmpLoginInfo model.LoginInfo
 
 	if err := c.BindJSON(&tmpLoginInfo); err != nil {
-		fmt.Fprintln(c.Writer, "bad request!")
+		handler.ErrBadRequest(c, err)
 		return
 	}
 
@@ -40,7 +40,7 @@ func UserCreate(c *gin.Context) {
 	ok := model.CreateUser(user)
 	if ok != nil {
 		c.JSON(200, gin.H{
-			"msg": "try_again",
+			"msg": ok,
 		})
 		return
 	}

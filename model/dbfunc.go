@@ -14,10 +14,13 @@ import (
 func CreateUser(tmpUser Users) error {
 
 	var tooluser Users
+	var myerr handler.Error
+	myerr.ErrorCode = "users is exist!!"
+	myerr.Message = "bad request!"
 	err2 := Db.Self.Where(&Users{Sid: tmpUser.Sid}).Find(&tooluser).Error
-	if err2 != nil {
-		log.Println("creat user err: ", err2)
-		return err2
+	if err2 == nil {
+		log.Println("creat user err: ", myerr)
+		return &myerr
 	}
 	Db.Self.Create(&tmpUser)
 
@@ -67,7 +70,7 @@ func Updateuser(tmpUser Users, uid string) error {
 
 }
 
-func UpdatePwd(tmpChange UpdatePwdinfo, uid string) error {
+func UpdatePwd(tmpChange UpdatePwdInfo, uid string) error {
 	tmpUser, err := FindUser(uid)
 	if err != nil {
 		return err
@@ -90,4 +93,34 @@ func UpdatePwd(tmpChange UpdatePwdinfo, uid string) error {
 
 	return nil
 
+}
+
+func CreateDriverRt(tmpRt RequireDriver) error {
+
+	err := Db.Self.Create(&tmpRt).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func FindDriverRt(uid string) (RequireDriver, error) {
+	var tmpRt RequireDriver
+	if err := Db.Self.Model(&RequireDriver{}).Where(RequireDriver{DriverID: uid}).First(&tmpRt).Error; err != nil {
+		return tmpRt, err
+	}
+
+	return tmpRt, nil
+}
+
+func DeleteDriverRt(uid string) error {
+	tmpRt, err := FindDriverRt(uid)
+	if err != nil {
+		return err
+	}
+	if err = Db.Self.Delete(&tmpRt).Error; err != nil {
+		return err
+	}
+	return nil
 }
