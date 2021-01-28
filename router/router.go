@@ -34,7 +34,6 @@ func Router(r *gin.Engine) {
 	r.POST("/driver", driver.AddDriverRequirement)
 	r.GET("/driver", driver.ViewDriverRequirement)
 	r.DELETE("/driver", driver.DeleteDriverRequirement)
-
 	//司机确认(注意乘客先确认,司机后确认)
 	r.PUT("​/driver​", driver.DriverConfirm)
 

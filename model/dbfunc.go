@@ -95,14 +95,16 @@ func UpdatePwd(tmpChange UpdatePwdInfo, uid string) error {
 
 }
 
-func UpdateCommentD(score float64, words string, uid string) error {
-	tmpComment, err := FindCommentD(uid)
+func UpdateCommentD(tmpComment CommentDriver, uid string) error {
+	exist, err := FindCommentD(uid)
 	if err != nil {
-		return err
+		if err := Db.Self.Model(&CommentDriver{}).Create(&tmpComment).Error; err != nil {
+			return err
+		}
 	}
-	tmpComment.DriverScore = (tmpComment.DriverScore + score) / 2.0
-	tmpComment.Words = words + tmpComment.Words
-	if err := Db.Self.Model(&CommentDriver{}).Where(CommentDriver{DriverID: uid}).Update(&tmpComment).Error; err != nil {
+	exist.DriverScore = (exist.DriverScore + tmpComment.DriverScore) / 2.0
+	exist.Words = exist.Words + tmpComment.Words
+	if err := Db.Self.Model(&CommentDriver{}).Where(CommentDriver{DriverID: uid}).Update(&exist).Error; err != nil {
 		return err
 	}
 
@@ -112,6 +114,30 @@ func UpdateCommentD(score float64, words string, uid string) error {
 func FindCommentD(uid string) (CommentDriver, error) {
 	var tmpComment CommentDriver
 	if err := Db.Self.Model(&CommentDriver{}).Where(CommentDriver{DriverID: uid}).First(&tmpComment).Error; err != nil {
+		return tmpComment, err
+	}
+	return tmpComment, nil
+}
+
+func UpdateCommentP(tmpComment CommentPassenger, uid string) error {
+	exist, err := FindCommentP(uid)
+	if err != nil {
+		if err := Db.Self.Model(&CommentPassenger{}).Create(&tmpComment).Error; err != nil {
+			return err
+		}
+	}
+	exist.PassengerScore = (exist.PassengerScore + tmpComment.PassengerScore) / 2.0
+	exist.Words = exist.Words + tmpComment.Words
+	if err := Db.Self.Model(&CommentPassenger{}).Where(CommentPassenger{PassengerID: uid}).Update(&exist).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func FindCommentP(uid string) (CommentPassenger, error) {
+	var tmpComment CommentPassenger
+	if err := Db.Self.Model(&CommentPassenger{}).Where(CommentPassenger{PassengerID: uid}).First(&tmpComment).Error; err != nil {
 		return tmpComment, err
 	}
 	return tmpComment, nil

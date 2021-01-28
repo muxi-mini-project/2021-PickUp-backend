@@ -68,3 +68,19 @@ type CommentDriver struct {
 	DriverScore float64 `json:"driver_score" gorm:"driver_score"`
 	Words       string  `json:"words" gorm:"words"`
 }
+
+type CommentPassenger struct {
+	ID             int     `json:"id" gorm:"id"`
+	PassengerID    string  `json:"passenger_id" gorm:"passenger_id"`
+	PassengerScore float64 `json:"passenger_score" gorm:"passenger_score"`
+	Words          string  `json:"words" gorm:"words"`
+}
+
+type Comment struct {
+	DriverID       string  `json:"driver_id" `
+	DriverScore    float64 `json:"driver_score" `
+	DriverWords    string  `json:"words" `
+	PassengerID    string  `json:"passenger_id" `
+	PassengerScore float64 `json:"passenger_score" `
+	PassengerWords string  `json:"passenger_words"`
+}
