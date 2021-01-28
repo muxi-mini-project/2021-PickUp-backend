@@ -1,4 +1,4 @@
-package driver
+package passenger
 
 import (
 	handler "pickup/handler/err"
@@ -7,20 +7,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AddDriverRequirement(c *gin.Context) {
-	var tmprequirement model.RequireDriver
+func AddPassengerRequirement(c *gin.Context) {
+	var tmprequirement model.RequirePassenger
 	if err := c.BindJSON(&tmprequirement); err != nil {
 		handler.ErrBadRequest(c, err)
 		//fmt.Println("1")
 		return
 	}
-	if err := model.CreateDriverRt(tmprequirement); err != nil {
+	if err := model.CreatePassengerRt(tmprequirement); err != nil {
 		handler.ErrServerError(c, err)
 		//fmt.Println("2")
 		return
 	}
 
-	rt, err := model.FindDriverRt(tmprequirement.DriverID)
+	rt, err := model.FindPassengerRt(tmprequirement.PassengerID)
 	if err != nil {
 		handler.ErrUnauthorized(c, err)
 		return

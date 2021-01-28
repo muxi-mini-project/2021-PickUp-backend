@@ -95,10 +95,36 @@ func UpdatePwd(tmpChange UpdatePwdInfo, uid string) error {
 
 }
 
-func CreateDriverRt(tmpRt RequireDriver) error {
-
-	err := Db.Self.Create(&tmpRt).Error
+func UpdateCommentD(score float64, words string, uid string) error {
+	tmpComment, err := FindCommentD(uid)
 	if err != nil {
+		return err
+	}
+	tmpComment.DriverScore = (tmpComment.DriverScore + score) / 2.0
+	tmpComment.Words = words + tmpComment.Words
+	if err := Db.Self.Model(&CommentDriver{}).Where(CommentDriver{DriverID: uid}).Update(&tmpComment).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func FindCommentD(uid string) (CommentDriver, error) {
+	var tmpComment CommentDriver
+	if err := Db.Self.Model(&CommentDriver{}).Where(CommentDriver{DriverID: uid}).First(&tmpComment).Error; err != nil {
+		return tmpComment, err
+	}
+	return tmpComment, nil
+}
+
+func CreateDriverRt(tmpRt RequireDriver) error {
+	if _, err := FindDriverRt(tmpRt.DriverID); err == nil {
+		if ok := DeleteDriverRt(tmpRt.DriverID); ok != nil {
+			return ok
+		}
+	}
+
+	if err := Db.Self.Create(&tmpRt).Error; err != nil {
 		return err
 	}
 
@@ -116,6 +142,64 @@ func FindDriverRt(uid string) (RequireDriver, error) {
 
 func DeleteDriverRt(uid string) error {
 	tmpRt, err := FindDriverRt(uid)
+	if err != nil {
+		return err
+	}
+	if err = Db.Self.Delete(&tmpRt).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func ConfirmD(rqt_id int, uid string) error {
+	var tmpRt RequirePassenger
+	var myerr handler.Error
+	myerr.ErrorCode = "passenger does not confirm"
+	myerr.Message = "wait!"
+	err := Db.Self.Model(&RequirePassenger{}).Where(RequirePassenger{ID: rqt_id}).First(&tmpRt).Error
+	if err != nil {
+		return err
+	}
+	if tmpRt.Status == 1 {
+		return &myerr
+	}
+	tmprt, err2 := FindDriverRt(uid)
+	if err2 != nil {
+		return err2
+	}
+	tmprt.Status = 2
+	if err := Db.Self.Model(&RequireDriver{}).Where(RequireDriver{DriverID: uid}).Update(&tmprt).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func CreatePassengerRt(tmpRt RequirePassenger) error {
+	if _, err := FindPassengerRt(tmpRt.PassengerID); err == nil {
+		if ok := DeletePassengerRt(tmpRt.PassengerID); ok != nil {
+			return ok
+		}
+	}
+
+	if err := Db.Self.Create(&tmpRt).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func FindPassengerRt(uid string) (RequirePassenger, error) {
+	var tmpRt RequirePassenger
+	if err := Db.Self.Model(&RequirePassenger{}).Where(RequirePassenger{PassengerID: uid}).First(&tmpRt).Error; err != nil {
+		return tmpRt, err
+	}
+
+	return tmpRt, nil
+}
+
+func DeletePassengerRt(uid string) error {
+	tmpRt, err := FindPassengerRt(uid)
 	if err != nil {
 		return err
 	}

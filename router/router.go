@@ -3,6 +3,7 @@ package router
 import (
 	"pickup/handler"
 	"pickup/handler/driver"
+	"pickup/handler/passenger"
 	"pickup/handler/user"
 
 	"github.com/gin-gonic/gin"
@@ -25,24 +26,24 @@ func Router(r *gin.Engine) {
 	//用户修改密码
 	r.PUT("/users/:uid/password", user.UpdatePassword)
 
-	/*	//用户评价
-		r.PUT("/users/comment/{comment_id}", handler.UsersComment)
-		r.GET("/users/comment/{comment_id}", handler.ViewComment)
-	*/
+	//用户评价
+	r.PUT("/users/:uid/comment", user.UsersComment)
+	//r.GET("/users/comment/{comment_id}", handler.ViewComment)
+
 	//司机订单
 	r.POST("/driver", driver.AddDriverRequirement)
 	r.GET("/driver", driver.ViewDriverRequirement)
 	r.DELETE("/driver", driver.DeleteDriverRequirement)
-	/*
-		//司机确认(注意乘客先确认,司机后确认)
-		r.POST("​/driver​/confirm​/{confirm_id}", handler.DriverConfirm)
 
-		//乘客订单
-		r.POST("/passenger", handler.AddPassengerRequirement)
-		r.GET("/passenger")
-		r.DELETE("/passenger", handler.DeletePassengerRequirement)
+	//司机确认(注意乘客先确认,司机后确认)
+	r.PUT("​/driver​", driver.DriverConfirm)
 
-		//乘客确认
+	//乘客订单
+	r.POST("/passenger", passenger.AddPassengerRequirement)
+	r.GET("/passenger", passenger.ViewPassengerRequirement)
+	r.DELETE("/passenger", passenger.DeletePassengerRequirement)
+
+	/*	//乘客确认
 		r.POST("/passenger/confirm/{confirm_id}", handler.PassengerConfirm)
 
 		//常用路径

@@ -40,6 +40,7 @@ type UpdatePwdInfo struct {
 }
 
 type RequireDriver struct {
+	ID           int    `json:"id" gorm:"id"`
 	DriverID     string `json:"driver_id" gorm:"driver_id"`
 	StartSpot    string `json:"start_spot" gorm:"start_spot"`
 	StartTime    string `json:"start_time" gorm:"start_time"`
@@ -47,4 +48,23 @@ type RequireDriver struct {
 	PassingSpots string `json:"passing_spots" gorm:"passing_spots"`
 	Notes        string `json:"notes" gorm:"notes"`
 	Status       int    `json:"status" gorm:"status"`
+}
+
+type RequirePassenger struct {
+	ID          int    `json:"id" gorm:"id"`
+	PassengerID string `json:"passenger_id" gorm:"passenger_id"`
+	StartSpot   string `json:"start_spot" gorm:"start_spot"`
+	EndSpot     string `json:"end_spot" gorm:"end_spot"`
+	StartTime   string `json:"start_time" gorm:"start_time"`
+	EndTime     string `json:"end_time" gorm:"end_time"`
+	Urgent      int    `json:"urgent" gorm:"urgent"`
+	Notes       string `json:"notes" gorm:"notes"`
+	Status      int    `json:"status" gorm:"status"`
+}
+
+type CommentDriver struct {
+	ID          int     `json:"id" gorm:"id"`
+	DriverID    string  `json:"driver_id" gorm:"driver_id"`
+	DriverScore float64 `json:"driver_score" gorm:"driver_score"`
+	Words       string  `json:"words" gorm:"words"`
 }
