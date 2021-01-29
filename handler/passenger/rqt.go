@@ -23,6 +23,7 @@ func ViewPassengerRequirement(c *gin.Context) {
 		"status":     tmpRt.Status,
 		"notes":      tmpRt.Notes,
 		"urgent":     tmpRt.Urgent,
+		"phone":      model.GetPhone(uid),
 	})
 	return
 }

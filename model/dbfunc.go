@@ -177,6 +177,18 @@ func DeleteDriverRt(uid string) error {
 	return nil
 }
 
+func ConfirmP(uid string) error {
+	tmpRt, err := FindPassengerRt(uid)
+	if err != nil {
+		return err
+	}
+	tmpRt.Status = 2
+	if err := Db.Self.Model(&RequirePassenger{}).Where(RequirePassenger{PassengerID: uid}).Update(&tmpRt).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
 func ConfirmD(rqt_id int, uid string) error {
 	var tmpRt RequirePassenger
 	var myerr handler.Error
@@ -198,7 +210,36 @@ func ConfirmD(rqt_id int, uid string) error {
 		return err
 	}
 
+	match := Match{
+		DriverID:    tmprt.DriverID,
+		PassengerID: tmpRt.PassengerID,
+		StartTime:   tmprt.StartTime,
+		EndTime:     tmprt.EndTime,
+		StartSpot:   tmprt.StartSpot,
+		EndSpot:     tmpRt.EndSpot,
+		DriverPhone: GetPhone(tmprt.DriverID),
+	}
+
+	if err := CreateRoute(match); err != nil {
+		return err
+	}
+
+	if err := DeleteDriverRt(tmprt.DriverID); err != nil {
+		return err
+	}
+	if err := DeletePassengerRt(tmpRt.PassengerID); err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func GetPhone(uid string) string {
+	user, err := FindUser(uid)
+	if err != nil {
+		return "null"
+	}
+	return user.Phone
 }
 
 func CreatePassengerRt(tmpRt RequirePassenger) error {

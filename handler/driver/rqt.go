@@ -22,6 +22,7 @@ func ViewDriverRequirement(c *gin.Context) {
 		"passing_spots": tmpRt.PassingSpots,
 		"status":        tmpRt.Status,
 		"notes":         tmpRt.Notes,
+		"phone":         model.GetPhone(uid),
 	})
 	return
 }
