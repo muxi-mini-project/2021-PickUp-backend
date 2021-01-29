@@ -1,0 +1,100 @@
+package model
+
+import (
+	"github.com/jinzhu/gorm"
+)
+
+type Users struct {
+	Sid      string `json:"-" gorm:"sid"`
+	NickName string `json:"nick_name" gorm:"nick_name"`
+	Password string `json:"password" gorm:"password"`
+	Gender   int    `json:"gender" gorm:"gender"`
+	Phone    string `json:"phone" gorm:"gender"`
+	Picture  string `json:"picture" gorm:"picture"`
+	Notes    string `json:"notes" gorm:"notes"`
+}
+
+type Database struct {
+	Self *gorm.DB
+}
+
+type LoginInfo struct {
+	Sid string `json:"sid"`
+	Pwd string `json:"pwd"`
+}
+
+/*type User struct {
+	Sid  string `grom:"sid"`
+	Name string `grom:"name"`
+}*/
+
+type UpdatePwdInfo struct {
+	Old string `json:"old"`
+	New string `json:"new"`
+}
+
+type RequireDriver struct {
+	ID           int    `json:"id" gorm:"id"`
+	DriverID     string `json:"driver_id" gorm:"driver_id"`
+	StartSpot    string `json:"start_spot" gorm:"start_spot"`
+	StartTime    string `json:"start_time" gorm:"start_time"`
+	EndTime      string `json:"end_time" gorm:"end_time"`
+	PassingSpots string `json:"passing_spots" gorm:"passing_spots"`
+	Notes        string `json:"notes" gorm:"notes"`
+	Status       int    `json:"status" gorm:"status"`
+}
+
+type RequirePassenger struct {
+	ID          int    `json:"id" gorm:"id"`
+	PassengerID string `json:"passenger_id" gorm:"passenger_id"`
+	StartSpot   string `json:"start_spot" gorm:"start_spot"`
+	EndSpot     string `json:"end_spot" gorm:"end_spot"`
+	StartTime   string `json:"start_time" gorm:"start_time"`
+	EndTime     string `json:"end_time" gorm:"end_time"`
+	Urgent      int    `json:"urgent" gorm:"urgent"`
+	Notes       string `json:"notes" gorm:"notes"`
+	Status      int    `json:"status" gorm:"status"`
+}
+
+type CommentDriver struct {
+	ID          int     `json:"id" gorm:"id"`
+	DriverID    string  `json:"driver_id" gorm:"driver_id"`
+	DriverScore float64 `json:"driver_score" gorm:"driver_score"`
+	Words       string  `json:"words" gorm:"words"`
+}
+
+type CommentPassenger struct {
+	ID             int     `json:"id" gorm:"id"`
+	PassengerID    string  `json:"passenger_id" gorm:"passenger_id"`
+	PassengerScore float64 `json:"passenger_score" gorm:"passenger_score"`
+	Words          string  `json:"words" gorm:"words"`
+}
+
+type Comment struct {
+	DriverID       string  `json:"driver_id" `
+	DriverScore    float64 `json:"driver_score" `
+	DriverWords    string  `json:"words" `
+	PassengerID    string  `json:"passenger_id" `
+	PassengerScore float64 `json:"passenger_score" `
+	PassengerWords string  `json:"passenger_words"`
+}
+
+type Match struct {
+	ID          int    `json:"id" gorm:"id"`
+	UserID      string `json:"user_id" gorm:"user_id"`
+	DriverID    string `json:"driver_id" gorm:"driver_id"`
+	PassengerID string `json:"passenger_id" gorm:"passenger_id"`
+	StartTime   string `json:"start_time" gorm:"start_time"`
+	EndTime     string `json:"end_time" gorm:"end_time"`
+	StartSpot   string `json:"start_spot" gorm:"start_spot"`
+	EndSpot     string `json:"end_spot" gorm:"end_spot"`
+	DriverPhone string `json:"driver_phone" gorm:"driver_phone"`
+}
+
+type Route struct {
+	UserID    string `json:"user_id" gorm:"user_id"`
+	StartTime string `json:"start_time" gorm:"start_time"`
+	EndTime   string `json:"end_time" gorm:"end_time"`
+	StartSpot string `json:"start_spot" gorm:"start_spot"`
+	EndSpot   string `json:"end_spot" gorm:"end_spot"`
+}
