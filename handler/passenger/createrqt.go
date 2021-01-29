@@ -32,8 +32,3 @@ func AddPassengerRequirement(c *gin.Context) {
 		"drt": rt.ID,
 	})
 }
-
-//通过常用路线发布订单
-func AddPRequirement(c *gin.Context) {
-
-}

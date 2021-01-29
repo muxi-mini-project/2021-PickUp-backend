@@ -18,7 +18,7 @@ func ViewUser(c *gin.Context) {
 		"msg":       "Success",
 		"sid":       tmpUser.Sid,
 		"nick_name": tmpUser.NickName,
-		"gender":    tmpUser.Gender,
+		"gender":    GetGender(tmpUser.Gender),
 		"picture":   tmpUser.Picture,
 		"phone":     tmpUser.Phone,
 		"notes":     tmpUser.Notes,
@@ -64,5 +64,16 @@ func UpdatePassword(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"msg": "success",
 	})
+
+}
+
+func GetGender(num int) string {
+	if num == 1 {
+		return "女"
+	} else if num == 2 {
+		return "男"
+	} else {
+		return "未知"
+	}
 
 }

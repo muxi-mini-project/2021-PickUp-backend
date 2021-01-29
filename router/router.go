@@ -33,20 +33,20 @@ func Router(r *gin.Engine) {
 
 	//司机订单
 	r.POST("/driver", driver.AddDriverRequirement)
-	r.POST("/driver/route")
+	r.GET("/driver/route", driver.ViewDRequirement)
 	r.GET("/driver", driver.ViewDriverRequirement)
-	r.PUT("​driver/comfirm​", driver.DriverConfirm)
 	r.DELETE("/driver", driver.DeleteDriverRequirement)
+	r.PUT("/driver/confirm", driver.DriverConfirm)
 
 	//乘客订单
 	r.POST("/passenger", passenger.AddPassengerRequirement)
-	r.PATCH("/passenger/route", passenger.AddPRequirement)
+	r.GET("/passenger/route", passenger.ViewPRequirement)
 	r.GET("/passenger", passenger.ViewPassengerRequirement)
 	r.DELETE("/passenger", passenger.DeletePassengerRequirement)
 
-	/*	//乘客确认
-		r.POST("/passenger/confirm/{confirm_id}", handler.PassengerConfirm)
-	*/
+	//乘客确认
+	r.PUT("/passenger/confirm", passenger.PassengerConfirm)
+
 	//常用路径
 	r.POST("/route", route.AddNewRoute)
 	r.GET("/route", route.ViewRoute)

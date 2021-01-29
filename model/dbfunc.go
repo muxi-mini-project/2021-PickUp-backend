@@ -243,13 +243,22 @@ func CreateRoute(tmpRoute Match) error {
 	return nil
 }
 
-func FindRoute(uid string) ([50]Match, error) {
-	var routes [50]Match
+func FindRoute(uid string) ([]Match, error) {
+	var routes []Match
 	err := Db.Self.Model(&Match{}).Where(Match{UserID: uid}).Find(&routes).Error
 	if err != nil {
 		return routes, err
 	}
 	return routes, nil
+}
+
+func FindRoute2(id int) (Match, error) {
+	var route Match
+	err := Db.Self.Model(&Match{}).Where(Match{ID: id}).Find(&route).Error
+	if err != nil {
+		return route, err
+	}
+	return route, nil
 }
 
 func DeleteRoute(id int) error {
