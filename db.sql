@@ -23,11 +23,13 @@ create index idx_users_id on users(sid);
 drop table if exists `match`;
 create table if not exists `match`(
    `id` int unsigned auto_increment,
-   `driver_id` int not null,
-   `passenger_id` int not null,
-   `start_time` varchar(100) not null,
-   `end_time` varchar(100) not null,
+   `user_id` varchar(100) not null,
+   `driver_id`  varchar(100)  null,
+   `passenger_id` varchar(100)  null,
+   `start_time` varchar(100)  null,
+   `end_time` varchar(100)  null,
    `start_spot` varchar(100) null,
+   `end_spot` varchar(100)  null,
    `driver_phone` varchar(100) null,
    primary key(`id`)
 )engine=innodb default charset=utf8;

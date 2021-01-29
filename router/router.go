@@ -4,6 +4,7 @@ import (
 	"pickup/handler"
 	"pickup/handler/driver"
 	"pickup/handler/passenger"
+	"pickup/handler/route"
 	"pickup/handler/user"
 
 	"github.com/gin-gonic/gin"
@@ -32,23 +33,23 @@ func Router(r *gin.Engine) {
 
 	//司机订单
 	r.POST("/driver", driver.AddDriverRequirement)
+	r.POST("/driver/route")
 	r.GET("/driver", driver.ViewDriverRequirement)
+	r.PUT("​driver/comfirm​", driver.DriverConfirm)
 	r.DELETE("/driver", driver.DeleteDriverRequirement)
-	//司机确认(注意乘客先确认,司机后确认)
-	r.PUT("​/driver​", driver.DriverConfirm)
 
 	//乘客订单
 	r.POST("/passenger", passenger.AddPassengerRequirement)
+	r.PATCH("/passenger/route", passenger.AddPRequirement)
 	r.GET("/passenger", passenger.ViewPassengerRequirement)
 	r.DELETE("/passenger", passenger.DeletePassengerRequirement)
 
 	/*	//乘客确认
 		r.POST("/passenger/confirm/{confirm_id}", handler.PassengerConfirm)
-
-		//常用路径
-		r.POST("/route/{route_id}", handler.AddNewRoute)
-		r.GET("/route/{route_id}", handler.ViewRoute)
-		r.DELETE("/route/{route_id}", handler.DeleteRoute)
 	*/
+	//常用路径
+	r.POST("/route", route.AddNewRoute)
+	r.GET("/route", route.ViewRoute)
+	r.DELETE("/route", route.DeleteRoute)
 
 }

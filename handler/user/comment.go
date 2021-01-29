@@ -34,4 +34,7 @@ func UsersComment(c *gin.Context) {
 		return
 	}
 	//fmt.Println(uid)
+	c.JSON(200, gin.H{
+		"msg": "success",
+	})
 }

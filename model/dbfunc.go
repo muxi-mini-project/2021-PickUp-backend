@@ -234,3 +234,30 @@ func DeletePassengerRt(uid string) error {
 	}
 	return nil
 }
+
+func CreateRoute(tmpRoute Match) error {
+	err := Db.Self.Model(&Match{}).Create(&tmpRoute).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func FindRoute(uid string) ([50]Match, error) {
+	var routes [50]Match
+	err := Db.Self.Model(&Match{}).Where(Match{UserID: uid}).Find(&routes).Error
+	if err != nil {
+		return routes, err
+	}
+	return routes, nil
+}
+
+func DeleteRoute(id int) error {
+	var route Match
+	err := Db.Self.Model(&Match{}).Where(Match{ID: id}).Delete(&route).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

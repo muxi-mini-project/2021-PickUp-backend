@@ -18,12 +18,6 @@ type Database struct {
 	Self *gorm.DB
 }
 
-type latestAction struct {
-	Sid        string `gorm:"sid"`
-	LatestTime string `gorm:"latest_time"`
-	RandNum    int    `gorm:"rand_num"`
-}
-
 type LoginInfo struct {
 	Sid string `json:"sid"`
 	Pwd string `json:"pwd"`
@@ -83,4 +77,24 @@ type Comment struct {
 	PassengerID    string  `json:"passenger_id" `
 	PassengerScore float64 `json:"passenger_score" `
 	PassengerWords string  `json:"passenger_words"`
+}
+
+type Match struct {
+	ID          int    `json:"id" gorm:"id"`
+	UserID      string `json:"user_id" gorm:"user_id"`
+	DriverID    string `json:"driver_id" gorm:"driver_id"`
+	PassengerID string `json:"passenger_id" gorm:"passenger_id"`
+	StartTime   string `json:"start_time" gorm:"start_time"`
+	EndTime     string `json:"end_time" gorm:"end_time"`
+	StartSpot   string `json:"start_spot" gorm:"start_spot"`
+	EndSpot     string `json:"end_spot" gorm:"end_spot"`
+	DriverPhone string `json:"driver_phone" gorm:"driver_phone"`
+}
+
+type Route struct {
+	UserID    string `json:"user_id" gorm:"user_id"`
+	StartTime string `json:"start_time" gorm:"start_time"`
+	EndTime   string `json:"end_time" gorm:"end_time"`
+	StartSpot string `json:"start_spot" gorm:"start_spot"`
+	EndSpot   string `json:"end_spot" gorm:"end_spot"`
 }

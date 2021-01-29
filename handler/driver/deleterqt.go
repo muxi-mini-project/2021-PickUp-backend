@@ -16,4 +16,8 @@ func DeleteDriverRequirement(c *gin.Context) {
 		return
 	}
 
+	c.JSON(200, gin.H{
+		"msg": "success",
+	})
+
 }

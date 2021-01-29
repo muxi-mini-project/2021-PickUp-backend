@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//直接发布订单
 func AddPassengerRequirement(c *gin.Context) {
 	var tmprequirement model.RequirePassenger
 	if err := c.BindJSON(&tmprequirement); err != nil {
@@ -30,4 +31,9 @@ func AddPassengerRequirement(c *gin.Context) {
 		"msg": "success",
 		"drt": rt.ID,
 	})
+}
+
+//通过常用路线发布订单
+func AddPRequirement(c *gin.Context) {
+
 }
