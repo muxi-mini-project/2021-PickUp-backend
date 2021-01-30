@@ -16,6 +16,7 @@ func ViewPassengerRequirement(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{
 		"msg":        "Success",
+		"ymd":        tmpRt.Ymd,
 		"start_time": tmpRt.StartTime,
 		"end_time":   tmpRt.EndTime,
 		"start_spot": tmpRt.StartSpot,
