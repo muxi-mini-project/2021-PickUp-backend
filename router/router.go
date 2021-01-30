@@ -47,6 +47,9 @@ func Router(r *gin.Engine) {
 	//乘客确认
 	r.PUT("/passenger/confirm", passenger.PassengerConfirm)
 
+	//获取乘客与司机的匹配度
+	r.GET("/user/match", user.MatchDegree)
+
 	//常用路径
 	r.POST("/route", route.AddNewRoute)
 	r.GET("/route", route.ViewRoute)

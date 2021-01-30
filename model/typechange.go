@@ -149,6 +149,7 @@ func MatchDegree(tmpP RequirePassenger, tmpD RequireDriver) int {
 	DStime := Time2Change(tmpD.StartTime)
 	DEtime := Time2Change(tmpD.EndTime)
 	percent := 0
+	//fmt.Println(Ptime, Dtime, PStime, PEtime, DStime, DEtime)
 	if Ptime.Year != Dtime.Year {
 		return percent
 	}
@@ -164,14 +165,12 @@ func MatchDegree(tmpP RequirePassenger, tmpD RequireDriver) int {
 	if PStime.Hour > DEtime.Hour || DStime.Hour > PEtime.Hour {
 		return percent
 	}
+	//fmt.Println(1)
 
 	if tmpP.Urgent == 2 {
 		percent += 10
 	}
-
-	if PStime.Min > DEtime.Min || DStime.Min > PEtime.Min {
-		return percent
-	}
+	//fmt.Println(2)
 
 	if PStime.Hour == DStime.Hour && PEtime.Hour == DEtime.Hour {
 		if PStime.Min == DStime.Min && PEtime.Min == DEtime.Min {
@@ -183,6 +182,7 @@ func MatchDegree(tmpP RequirePassenger, tmpD RequireDriver) int {
 		percent += 10
 	}
 
+	//fmt.Println(3)
 	s := tmpD.StartSpot + "," + tmpD.PassingSpots
 	num := MatchAandE(s, tmpP.StartSpot, tmpP.EndSpot)
 	if num == 200 {

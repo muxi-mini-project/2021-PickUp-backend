@@ -8,11 +8,10 @@ import (
 )
 
 func ViewDriverRequirement(c *gin.Context) {
-	uid := c.Param("uid")
-	tmpRt, err := model.FindDriverRt(uid)
-	if err != nil {
-		handler.ErrServerError(c, err)
-		return
+	did := c.Query("did")
+	tmpRt, err2 := model.FindDriverRt(did)
+	if err2 != nil {
+		handler.ErrServerError(c, err2)
 	}
 	c.JSON(200, gin.H{
 		"msg":           "Success",
@@ -23,7 +22,7 @@ func ViewDriverRequirement(c *gin.Context) {
 		"passing_spots": tmpRt.PassingSpots,
 		"status":        tmpRt.Status,
 		"notes":         tmpRt.Notes,
-		"phone":         model.GetPhone(uid),
+		"phone":         model.GetPhone(did),
 	})
 	return
 }

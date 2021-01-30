@@ -8,8 +8,8 @@ import (
 )
 
 func ViewPassengerRequirement(c *gin.Context) {
-	uid := c.Param("uid")
-	tmpRt, err := model.FindPassengerRt(uid)
+	pid := c.Query("pid")
+	tmpRt, err := model.FindPassengerRt(pid)
 	if err != nil {
 		handler.ErrServerError(c, err)
 		return
@@ -24,7 +24,7 @@ func ViewPassengerRequirement(c *gin.Context) {
 		"status":     tmpRt.Status,
 		"notes":      tmpRt.Notes,
 		"urgent":     tmpRt.Urgent,
-		"phone":      model.GetPhone(uid),
+		"phone":      model.GetPhone(pid),
 	})
 	return
 }
