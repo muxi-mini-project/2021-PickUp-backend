@@ -1,6 +1,7 @@
 package model
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 )
 
@@ -101,3 +102,10 @@ type Route struct {
 	StartSpot string `json:"start_spot" gorm:"start_spot"`
 	EndSpot   string `json:"end_spot" gorm:"end_spot"`
 }
+
+type JwtClaims struct {
+	jwt.StandardClaims
+	UID string `json:"uid"`
+}
+
+var Secret = "miniProject"

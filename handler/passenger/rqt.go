@@ -8,7 +8,17 @@ import (
 )
 
 func ViewPassengerRequirement(c *gin.Context) {
-	pid := c.Query("pid")
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
+	pid := token.UID
 	tmpRt, err := model.FindPassengerRt(pid)
 	if err != nil {
 		handler.ErrServerError(c, err)

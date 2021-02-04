@@ -1,8 +1,13 @@
 package model
 
 import (
+	"errors"
+	"fmt"
+	"log"
 	"strconv"
 	"strings"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 func TypeChange(spot string) int {
@@ -203,4 +208,24 @@ func MatchDegree(tmpP RequirePassenger, tmpD RequireDriver) int {
 	}
 
 	return percent
+}
+
+//解析token
+func VerifyToken(token string) (*JwtClaims, error) {
+	tmptoken, err := jwt.ParseWithClaims(token, &JwtClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(Secret), nil
+	})
+	log.Println(err)
+	if err != nil {
+		return nil, errors.New("解析失败!")
+	}
+	claims, ok := tmptoken.Claims.(*JwtClaims)
+	if !ok {
+		return nil, errors.New("wrong2")
+	}
+	if err := tmptoken.Claims.Valid(); err != nil {
+		return nil, errors.New("wrong3")
+	}
+	fmt.Println("verify")
+	return claims, nil
 }

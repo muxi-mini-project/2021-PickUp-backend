@@ -54,8 +54,8 @@ func UserCreate(c *gin.Context) {
 
 func produceToken(uid string) string {
 	//id, _ := strconv.Atoi(uid)
-	claims := &jwtClaims{
-		Uid: uid,
+	claims := &model.JwtClaims{
+		UID: uid,
 	}
 	claims.IssuedAt = time.Now().Unix()
 	claims.ExpiresAt = time.Now().Add(time.Second * time.Duration(ExpireTime)).Unix()
@@ -69,7 +69,7 @@ func produceToken(uid string) string {
 	return singedToken
 }
 
-func genToken(claims jwtClaims) (string, error) {
+func genToken(claims model.JwtClaims) (string, error) {
 	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString([]byte(key))
@@ -77,11 +77,6 @@ func genToken(claims jwtClaims) (string, error) {
 		return "", err
 	}
 	return signedToken, nil
-}
-
-type jwtClaims struct {
-	jwt.StandardClaims
-	Uid string `json:"uid"`
 }
 
 var (

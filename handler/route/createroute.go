@@ -8,13 +8,24 @@ import (
 )
 
 func AddNewRoute(c *gin.Context) {
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
+	uid := token.UID
 	var tmproute model.Route
+	tmproute.UserID = uid
 	if err := c.BindJSON(&tmproute); err != nil {
 		handler.ErrBadRequest(c, err)
 		return
 	}
 	route := model.Match{
-		UserID:    tmproute.UserID,
 		StartSpot: tmproute.StartSpot,
 		EndSpot:   tmproute.EndSpot,
 		StartTime: tmproute.StartTime,

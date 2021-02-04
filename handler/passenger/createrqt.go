@@ -9,7 +9,18 @@ import (
 
 //直接发布订单
 func AddPassengerRequirement(c *gin.Context) {
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
 	var tmprequirement model.RequirePassenger
+	tmprequirement.PassengerID = token.UID
 	if err := c.BindJSON(&tmprequirement); err != nil {
 		handler.ErrBadRequest(c, err)
 		//fmt.Println("1")

@@ -8,7 +8,17 @@ import (
 )
 
 func ViewUser(c *gin.Context) {
-	uid := c.Param("uid")
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
+	uid := token.UID
 	tmpUser, err := model.FindUser(uid)
 	if err != nil {
 		handler.ErrServerError(c, err)
@@ -27,7 +37,17 @@ func ViewUser(c *gin.Context) {
 }
 
 func UpdateUser(c *gin.Context) {
-	uid := c.Param("uid")
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
+	uid := token.UID
 	var tmpchange model.Users
 	err := c.BindJSON(&tmpchange)
 	if err != nil {
@@ -47,7 +67,17 @@ func UpdateUser(c *gin.Context) {
 }
 
 func UpdatePassword(c *gin.Context) {
-	uid := c.Param("uid")
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
+	uid := token.UID
 	var tmpchange model.UpdatePwdInfo
 	err := c.BindJSON(&tmpchange)
 	if err != nil {

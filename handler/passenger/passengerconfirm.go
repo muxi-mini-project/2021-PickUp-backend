@@ -8,7 +8,17 @@ import (
 )
 
 func PassengerConfirm(c *gin.Context) {
-	uid := c.Query("uid")
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
+	uid := token.UID
 	err := model.ConfirmP(uid)
 	if err != nil {
 		handler.ErrServerError(c, err)
