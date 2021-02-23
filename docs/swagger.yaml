@@ -1,10 +1,24 @@
-basePath: /pickup
 definitions:
   handler.Error:
     properties:
       error_code:
         type: string
       message:
+        type: string
+    type: object
+  model.Comment:
+    properties:
+      driver_id:
+        type: string
+      driver_score:
+        type: number
+      passenger_id:
+        type: string
+      passenger_score:
+        type: number
+      passenger_words:
+        type: string
+      words:
         type: string
     type: object
   model.LoginInfo:
@@ -17,6 +31,13 @@ definitions:
   model.Res:
     properties:
       msg:
+        type: string
+    type: object
+  model.UpdatePwdInfo:
+    properties:
+      new:
+        type: string
+      old:
         type: string
     type: object
   model.Users:
@@ -34,6 +55,53 @@ definitions:
       picture:
         type: string
     type: object
+  model.VeRequireDriver:
+    properties:
+      end_time:
+        type: string
+      notes:
+        type: string
+      passing_spots:
+        type: string
+      start_spot:
+        type: string
+      start_time:
+        type: string
+      ymd:
+        description: 年月日
+        type: string
+    type: object
+  model.VeRequireDriver1:
+    properties:
+      driver_id:
+        type: string
+      driver_phone:
+        type: string
+      end_time:
+        type: string
+      notes:
+        type: string
+      passing_spots:
+        type: string
+      start_spot:
+        type: string
+      start_time:
+        type: string
+      status:
+        type: string
+      ymd:
+        description: 年月日
+        type: string
+    type: object
+  model.VeRoute:
+    properties:
+      end_spot:
+        type: string
+      start_spot:
+        type: string
+      user_phone:
+        type: string
+    type: object
   model.VeUsers:
     properties:
       gender:
@@ -47,13 +115,160 @@ definitions:
       picture:
         type: string
     type: object
-host: localhost:8080
 info:
   contact: {}
-  description: pickup 顺风车
-  title: pick up
-  version: "1.0"
 paths:
+  /driver:
+    delete:
+      consumes:
+      - application/json
+      description: 司机删除订单
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg":"success"}'
+          schema:
+            $ref: '#/definitions/model.Res'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败
+            重新登录'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "500":
+          description: '{"error_code":"30001", "message":"database does not open successful"}
+            失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+      summary: 司机订单
+      tags:
+      - driver
+    get:
+      consumes:
+      - application/json
+      description: 显示订单信息,点击 订单详情页 时调用
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.VeRequireDriver1'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败
+            重新登录'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+      summary: 显示订单信息
+      tags:
+      - driver
+    post:
+      consumes:
+      - application/json
+      description: 司机创造新的订单
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 司机需要填写的信息,注意年月日需要以xx年xx月xx日的形式填写,status表示该订单是否完成,1为未完成,2为已完成
+        in: body
+        name: tmprequirement
+        required: true
+        schema:
+          $ref: '#/definitions/model.VeRequireDriver'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg":"success", "drt":"string"}'
+          schema:
+            $ref: '#/definitions/model.Res'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败
+            重新登录'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "500":
+          description: '{"error_code":"30001", "message":"database does not open successful"}
+            失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+      summary: 司机订单
+      tags:
+      - driver
+  /driver/:id:
+    get:
+      consumes:
+      - application/json
+      description: 在路径中,点击 创建新订单 时调用
+      parameters:
+      - description: 常用路径的id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.VeRoute'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败
+            重新登录'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+      summary: 通过常用路径来添加部分订单信息
+      tags:
+      - driver
   /users:
     get:
       consumes:
@@ -92,7 +307,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create
+      description: 注册新用户,通过一站式登录来注册
       parameters:
       - description: 学号和密码
         in: body
@@ -124,7 +339,6 @@ paths:
       summary: 注册
       tags:
       - user
-  /users/:
     put:
       consumes:
       - application/json
@@ -165,6 +379,41 @@ paths:
       summary: 修改用户信息
       tags:
       - user
+  /users/comment:
+    put:
+      consumes:
+      - application/json
+      description: 用户给予乘客和用户评分和评论
+      parameters:
+      - description: 用户给予司机和乘客评分和评论,需要对应乘客和司机的id
+        in: body
+        name: Comment
+        required: true
+        schema:
+          $ref: '#/definitions/model.Comment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg":"success"}'
+          schema:
+            $ref: '#/definitions/model.Res'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "401":
+          description: '{"error_code":"20001", "message":"Fail."} 评论失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+      summary: 用户评论
+      tags:
+      - user
   /users/login:
     post:
       consumes:
@@ -200,6 +449,47 @@ paths:
           schema:
             $ref: '#/definitions/handler.Error'
       summary: 登录
+      tags:
+      - user
+  /users/password:
+    put:
+      consumes:
+      - application/json
+      description: 修改用户密码，点击“修改密码”的时候调用
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 新旧密码
+        in: body
+        name: passwords
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdatePwdInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Users'
+        "400":
+          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败
+            重新登录'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+      summary: 修改用户密码
       tags:
       - user
 swagger: "2.0"

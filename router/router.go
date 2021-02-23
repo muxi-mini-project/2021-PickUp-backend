@@ -22,7 +22,7 @@ func Router(r *gin.Engine) {
 
 	//用户主页及其信息修改
 	r.GET("/pickup/users", user.ViewUser)
-	r.PUT("/pickup/users/update", user.UpdateUser)
+	r.PUT("/pickup/users", user.UpdateUser)
 
 	//用户修改密码
 	r.PUT("/pickup/users/password", user.UpdatePassword)
@@ -33,7 +33,7 @@ func Router(r *gin.Engine) {
 
 	//司机订单
 	r.POST("/pickup/driver", driver.AddDriverRequirement)
-	r.GET("/pickup/driver/route", driver.ViewDRequirement)
+	r.GET("/pickup/driver/:id", driver.ViewDRequirement)
 	r.GET("/pickup/driver", driver.ViewDriverRequirement)
 	r.DELETE("/pickup/driver", driver.DeleteDriverRequirement)
 	r.PUT("/pickup/driver/confirm", driver.DriverConfirm)

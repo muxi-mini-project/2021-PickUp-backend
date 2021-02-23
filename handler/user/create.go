@@ -13,7 +13,7 @@ import (
 )
 
 // @Summary 注册
-// @Description Create
+// @Description 注册新用户,通过一站式登录来注册
 // @Tags user
 // @Accept json
 // @Produce json
