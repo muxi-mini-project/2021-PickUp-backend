@@ -216,6 +216,277 @@
                 }
             }
         },
+        "/passenger": {
+            "get": {
+                "description": "显示订单信息,点击 订单详情页 时调用",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "passenger"
+                ],
+                "summary": "显示订单信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/model.VeRequirePassenger"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error_code\":\"00001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"10001\", \"message\":\"Token Invalid.\"} 身份认证失败 重新登录",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"Fail.\"} 失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "乘客创造新的订单",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "passenger"
+                ],
+                "summary": "乘客订单",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "乘客需要填写的信息,注意年月日需要以xx年xx月xx日的形式填写,status表示该订单是否完成,1为未完成,2为已完成",
+                        "name": "tmprequirement",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.VeRequirePassenger"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"msg\":\"success\", \"pid\":\"string\"}",
+                        "schema": {
+                            "$ref": "#/definitions/model.Res"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error_code\":\"00001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"10001\", \"message\":\"Token Invalid.\"} 身份认证失败 重新登录",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"database does not open successful\"} 失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "乘客删除订单",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "driver"
+                ],
+                "summary": "乘客订单",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"msg\":\"success\"}",
+                        "schema": {
+                            "$ref": "#/definitions/model.Res"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error_code\":\"00001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"10001\", \"message\":\"Token Invalid.\"} 身份认证失败 重新登录",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"database does not open successful\"} 失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/passenger/:id": {
+            "get": {
+                "description": "在路径中,点击 创建新订单 时调用",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "passenger"
+                ],
+                "summary": "通过常用路径来添加部分订单信息",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "常用路径的id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/model.VeRoute"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error_code\":\"00001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"10001\", \"message\":\"Token Invalid.\"} 身份认证失败 重新登录",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"Fail.\"} 失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/route": {
+            "post": {
+                "description": "用户创造新的常用路径",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "route"
+                ],
+                "summary": "常用路径",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "用户需要填写的信息",
+                        "name": "tmprequirement",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Route"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"msg\":\"success\", \"pid\":\"string\"}",
+                        "schema": {
+                            "$ref": "#/definitions/model.Res"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error_code\":\"00001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"10001\", \"message\":\"Token Invalid.\"} 身份认证失败 重新登录",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"database does not open successful\"} 失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "description": "显示用户信息，点击“我的”和“修改信息”的时候调用",
@@ -591,6 +862,26 @@
                 }
             }
         },
+        "model.Route": {
+            "type": "object",
+            "properties": {
+                "end_spot": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "start_spot": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "model.UpdatePwdInfo": {
             "type": "object",
             "properties": {
@@ -675,6 +966,37 @@
                 },
                 "status": {
                     "type": "string"
+                },
+                "ymd": {
+                    "description": "年月日",
+                    "type": "string"
+                }
+            }
+        },
+        "model.VeRequirePassenger": {
+            "type": "object",
+            "properties": {
+                "end_spot": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "start_spot": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "urgent": {
+                    "description": "紧急情况,1为紧急,2为非紧急,如果没有则视为非紧急",
+                    "type": "integer"
                 },
                 "ymd": {
                     "description": "年月日",
