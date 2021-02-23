@@ -15,6 +15,14 @@ type Users struct {
 	Notes    string `json:"notes" gorm:"notes"`
 }
 
+type VeUsers struct {
+	NickName string `json:"nick_name" gorm:"nick_name"`
+	Gender   int    `json:"gender" gorm:"gender"`
+	Phone    string `json:"phone" gorm:"gender"`
+	Picture  string `json:"picture" gorm:"picture"`
+	Notes    string `json:"notes" gorm:"notes"`
+}
+
 type Database struct {
 	Self *gorm.DB
 }
@@ -109,3 +117,7 @@ type JwtClaims struct {
 }
 
 var Secret = "miniProject"
+
+type Res struct {
+	Msg string `json:"msg"`
+}

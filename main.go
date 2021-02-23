@@ -9,6 +9,14 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// @title pick up
+// @version 1.0
+// @description pickup 顺风车
+
+// @host localhost:8080
+// @BasePath /pickup
+
+// @Schemas http
 func main() {
 	r := gin.Default()
 
