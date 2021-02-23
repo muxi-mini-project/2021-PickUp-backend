@@ -1,6 +1,7 @@
 package model
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 )
 
@@ -8,6 +9,14 @@ type Users struct {
 	Sid      string `json:"-" gorm:"sid"`
 	NickName string `json:"nick_name" gorm:"nick_name"`
 	Password string `json:"password" gorm:"password"`
+	Gender   int    `json:"gender" gorm:"gender"`
+	Phone    string `json:"phone" gorm:"gender"`
+	Picture  string `json:"picture" gorm:"picture"`
+	Notes    string `json:"notes" gorm:"notes"`
+}
+
+type VeUsers struct {
+	NickName string `json:"nick_name" gorm:"nick_name"`
 	Gender   int    `json:"gender" gorm:"gender"`
 	Phone    string `json:"phone" gorm:"gender"`
 	Picture  string `json:"picture" gorm:"picture"`
@@ -37,6 +46,7 @@ type RequireDriver struct {
 	ID           int    `json:"id" gorm:"id"`
 	DriverID     string `json:"driver_id" gorm:"driver_id"`
 	StartSpot    string `json:"start_spot" gorm:"start_spot"`
+	Ymd          string `json:"ymd" gorm:"ymd"`
 	StartTime    string `json:"start_time" gorm:"start_time"`
 	EndTime      string `json:"end_time" gorm:"end_time"`
 	PassingSpots string `json:"passing_spots" gorm:"passing_spots"`
@@ -49,6 +59,7 @@ type RequirePassenger struct {
 	PassengerID string `json:"passenger_id" gorm:"passenger_id"`
 	StartSpot   string `json:"start_spot" gorm:"start_spot"`
 	EndSpot     string `json:"end_spot" gorm:"end_spot"`
+	Ymd         string `json:"ymd" gorm:"ymd"`
 	StartTime   string `json:"start_time" gorm:"start_time"`
 	EndTime     string `json:"end_time" gorm:"end_time"`
 	Urgent      int    `json:"urgent" gorm:"urgent"`
@@ -84,6 +95,7 @@ type Match struct {
 	UserID      string `json:"user_id" gorm:"user_id"`
 	DriverID    string `json:"driver_id" gorm:"driver_id"`
 	PassengerID string `json:"passenger_id" gorm:"passenger_id"`
+	Ymd         string `json:"ymd" gorm:"ymd"`
 	StartTime   string `json:"start_time" gorm:"start_time"`
 	EndTime     string `json:"end_time" gorm:"end_time"`
 	StartSpot   string `json:"start_spot" gorm:"start_spot"`
@@ -97,4 +109,15 @@ type Route struct {
 	EndTime   string `json:"end_time" gorm:"end_time"`
 	StartSpot string `json:"start_spot" gorm:"start_spot"`
 	EndSpot   string `json:"end_spot" gorm:"end_spot"`
+}
+
+type JwtClaims struct {
+	jwt.StandardClaims
+	UID string `json:"uid"`
+}
+
+var Secret = "miniProject"
+
+type Res struct {
+	Msg string `json:"msg"`
 }

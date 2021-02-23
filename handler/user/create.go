@@ -12,6 +12,17 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// @Summary 注册
+// @Description Create
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param loginInfo body model.LoginInfo true "学号和密码"
+// @Success 200 {object} model.Res "{"msg":"success", "token": string}"
+// @Failure 401 {object} handler.Error "{"error_code":"20001", "message":"Fail."} 注册失败
+// @Failure 400 {object} handler.Error "{"error_code":"00001", "message":"Fail."} or {"error_code":"00002", "message":"Lack Param Or Param Not Satisfiable."}"
+// @Failure 500 {object} handler.Error "{"error_code":"30001", "message":"database does not open successful"} 失败"
+// @Router /users [post]
 func UserCreate(c *gin.Context) {
 	var tmpUser model.SuInfo
 	var tmpLoginInfo model.LoginInfo
@@ -39,7 +50,7 @@ func UserCreate(c *gin.Context) {
 
 	ok := model.CreateUser(user)
 	if ok != nil {
-		c.JSON(200, gin.H{
+		c.JSON(401, gin.H{
 			"msg": ok,
 		})
 		return
@@ -54,8 +65,8 @@ func UserCreate(c *gin.Context) {
 
 func produceToken(uid string) string {
 	//id, _ := strconv.Atoi(uid)
-	claims := &jwtClaims{
-		Uid: uid,
+	claims := &model.JwtClaims{
+		UID: uid,
 	}
 	claims.IssuedAt = time.Now().Unix()
 	claims.ExpiresAt = time.Now().Add(time.Second * time.Duration(ExpireTime)).Unix()
@@ -69,7 +80,7 @@ func produceToken(uid string) string {
 	return singedToken
 }
 
-func genToken(claims jwtClaims) (string, error) {
+func genToken(claims model.JwtClaims) (string, error) {
 	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString([]byte(key))
@@ -77,11 +88,6 @@ func genToken(claims jwtClaims) (string, error) {
 		return "", err
 	}
 	return signedToken, nil
-}
-
-type jwtClaims struct {
-	jwt.StandardClaims
-	Uid string `json:"uid"`
 }
 
 var (

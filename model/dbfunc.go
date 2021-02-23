@@ -101,6 +101,7 @@ func UpdateCommentD(tmpComment CommentDriver, uid string) error {
 		if err := Db.Self.Model(&CommentDriver{}).Create(&tmpComment).Error; err != nil {
 			return err
 		}
+		return nil
 	}
 	exist.DriverScore = (exist.DriverScore + tmpComment.DriverScore) / 2.0
 	exist.Words = exist.Words + tmpComment.Words
@@ -125,6 +126,7 @@ func UpdateCommentP(tmpComment CommentPassenger, uid string) error {
 		if err := Db.Self.Model(&CommentPassenger{}).Create(&tmpComment).Error; err != nil {
 			return err
 		}
+		return nil
 	}
 	exist.PassengerScore = (exist.PassengerScore + tmpComment.PassengerScore) / 2.0
 	exist.Words = exist.Words + tmpComment.Words
@@ -189,22 +191,25 @@ func ConfirmP(uid string) error {
 
 	return nil
 }
-func ConfirmD(rqt_id int, uid string) error {
+func ConfirmD(pid string, uid string) error {
 	var tmpRt RequirePassenger
 	var myerr handler.Error
 	myerr.ErrorCode = "passenger does not confirm"
 	myerr.Message = "wait!"
-	err := Db.Self.Model(&RequirePassenger{}).Where(RequirePassenger{ID: rqt_id}).First(&tmpRt).Error
+	err := Db.Self.Model(&RequirePassenger{}).Where(RequirePassenger{PassengerID: pid}).First(&tmpRt).Error
+	fmt.Println(1)
 	if err != nil {
 		return err
 	}
 	if tmpRt.Status == 1 {
 		return &myerr
 	}
+	fmt.Println(2)
 	tmprt, err2 := FindDriverRt(uid)
 	if err2 != nil {
 		return err2
 	}
+	fmt.Println(3)
 	tmprt.Status = 2
 	if err := Db.Self.Model(&RequireDriver{}).Where(RequireDriver{DriverID: uid}).Update(&tmprt).Error; err != nil {
 		return err

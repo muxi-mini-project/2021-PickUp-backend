@@ -8,21 +8,31 @@ import (
 )
 
 func ViewDriverRequirement(c *gin.Context) {
-	uid := c.Param("uid")
-	tmpRt, err := model.FindDriverRt(uid)
-	if err != nil {
-		handler.ErrServerError(c, err)
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
 		return
+	}
+	did := token.UID
+	tmpRt, err2 := model.FindDriverRt(did)
+	if err2 != nil {
+		handler.ErrServerError(c, err2)
 	}
 	c.JSON(200, gin.H{
 		"msg":           "Success",
+		"ymd":           tmpRt.Ymd,
 		"start_time":    tmpRt.StartTime,
 		"end_time":      tmpRt.EndTime,
 		"start_spot":    tmpRt.StartSpot,
 		"passing_spots": tmpRt.PassingSpots,
 		"status":        tmpRt.Status,
 		"notes":         tmpRt.Notes,
-		"phone":         model.GetPhone(uid),
+		"phone":         model.GetPhone(did),
 	})
 	return
 }

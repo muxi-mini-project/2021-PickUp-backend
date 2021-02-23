@@ -8,14 +8,25 @@ import (
 )
 
 func ViewPassengerRequirement(c *gin.Context) {
-	uid := c.Param("uid")
-	tmpRt, err := model.FindPassengerRt(uid)
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
+	pid := token.UID
+	tmpRt, err := model.FindPassengerRt(pid)
 	if err != nil {
 		handler.ErrServerError(c, err)
 		return
 	}
 	c.JSON(200, gin.H{
 		"msg":        "Success",
+		"ymd":        tmpRt.Ymd,
 		"start_time": tmpRt.StartTime,
 		"end_time":   tmpRt.EndTime,
 		"start_spot": tmpRt.StartSpot,
@@ -23,7 +34,7 @@ func ViewPassengerRequirement(c *gin.Context) {
 		"status":     tmpRt.Status,
 		"notes":      tmpRt.Notes,
 		"urgent":     tmpRt.Urgent,
-		"phone":      model.GetPhone(uid),
+		"phone":      model.GetPhone(pid),
 	})
 	return
 }

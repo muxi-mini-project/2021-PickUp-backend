@@ -8,7 +8,17 @@ import (
 )
 
 func DeleteDriverRequirement(c *gin.Context) {
-	uid := c.Param("uid")
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		return
+	}
+	uid := token.UID
 
 	err := model.DeleteDriverRt(uid)
 	if err != nil {

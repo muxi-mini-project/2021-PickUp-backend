@@ -3,18 +3,17 @@ package driver
 import (
 	handler "pickup/handler/err"
 	"pickup/model"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func DriverConfirm(c *gin.Context) {
-	prt_id := c.Param("prt_id") //前端发送要确认的乘客订单id
-	id, _ := strconv.Atoi(prt_id)
-	uid := c.Query("uid")
-	err := model.ConfirmD(id, uid)
+	pid := c.Query("pid") //前端发送要确认的乘客id
+	did := c.Query("did")
+	err := model.ConfirmD(pid, did)
 	if err != nil {
 		handler.ErrServerError(c, err)
+		//fmt.Println(2)
 		return
 	}
 
