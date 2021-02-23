@@ -43,9 +43,10 @@ type UpdatePwdInfo struct {
 }
 
 type RequireDriver struct {
-	ID           int    `json:"id" gorm:"id"`
-	DriverID     string `json:"driver_id" gorm:"driver_id"`
-	StartSpot    string `json:"start_spot" gorm:"start_spot"`
+	ID        int    `json:"id" gorm:"id"`
+	DriverID  string `json:"driver_id" gorm:"driver_id"`
+	StartSpot string `json:"start_spot" gorm:"start_spot"`
+	//年月日
 	Ymd          string `json:"ymd" gorm:"ymd"`
 	StartTime    string `json:"start_time" gorm:"start_time"`
 	EndTime      string `json:"end_time" gorm:"end_time"`
@@ -54,17 +55,41 @@ type RequireDriver struct {
 	Status       int    `json:"status" gorm:"status"`
 }
 
+type VeRequireDriver struct {
+	StartSpot string `json:"start_spot" gorm:"start_spot"`
+	//年月日
+	Ymd          string `json:"ymd" gorm:"ymd"`
+	StartTime    string `json:"start_time" gorm:"start_time"`
+	EndTime      string `json:"end_time" gorm:"end_time"`
+	PassingSpots string `json:"passing_spots" gorm:"passing_spots"`
+	Notes        string `json:"notes" gorm:"notes"`
+}
+
+type VeRequireDriver1 struct {
+	DriverID    string `json:"driver_id" gorm:"driver_id"`
+	DriverPhone string `json:"driver_phone" gorm:"driver_phone"`
+	Status      string `json:"status" gorm:"status"`
+	StartSpot   string `json:"start_spot" gorm:"start_spot"`
+	//年月日
+	Ymd          string `json:"ymd" gorm:"ymd"`
+	StartTime    string `json:"start_time" gorm:"start_time"`
+	EndTime      string `json:"end_time" gorm:"end_time"`
+	PassingSpots string `json:"passing_spots" gorm:"passing_spots"`
+	Notes        string `json:"notes" gorm:"notes"`
+}
+
 type RequirePassenger struct {
 	ID          int    `json:"id" gorm:"id"`
 	PassengerID string `json:"passenger_id" gorm:"passenger_id"`
 	StartSpot   string `json:"start_spot" gorm:"start_spot"`
 	EndSpot     string `json:"end_spot" gorm:"end_spot"`
-	Ymd         string `json:"ymd" gorm:"ymd"`
-	StartTime   string `json:"start_time" gorm:"start_time"`
-	EndTime     string `json:"end_time" gorm:"end_time"`
-	Urgent      int    `json:"urgent" gorm:"urgent"`
-	Notes       string `json:"notes" gorm:"notes"`
-	Status      int    `json:"status" gorm:"status"`
+	//年月日
+	Ymd       string `json:"ymd" gorm:"ymd"`
+	StartTime string `json:"start_time" gorm:"start_time"`
+	EndTime   string `json:"end_time" gorm:"end_time"`
+	Urgent    int    `json:"urgent" gorm:"urgent"`
+	Notes     string `json:"notes" gorm:"notes"`
+	Status    int    `json:"status" gorm:"status"`
 }
 
 type CommentDriver struct {
@@ -109,6 +134,12 @@ type Route struct {
 	EndTime   string `json:"end_time" gorm:"end_time"`
 	StartSpot string `json:"start_spot" gorm:"start_spot"`
 	EndSpot   string `json:"end_spot" gorm:"end_spot"`
+}
+
+type VeRoute struct {
+	StartSpot string `json:"start_spot" gorm:"start_spot"`
+	EndSpot   string `json:"end_spot" gorm:"end_spot"`
+	UserPhone string `json:"user_phone" gorm:"user_phone"`
 }
 
 type JwtClaims struct {
