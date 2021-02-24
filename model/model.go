@@ -92,6 +92,19 @@ type RequirePassenger struct {
 	Status    int    `json:"status" gorm:"status"`
 }
 
+type VeRequirePassenger struct {
+	StartSpot string `json:"start_spot" gorm:"start_spot"`
+	EndSpot   string `json:"end_spot" gorm:"end_spot"`
+	//年月日
+	Ymd       string `json:"ymd" gorm:"ymd"`
+	StartTime string `json:"start_time" gorm:"start_time"`
+	EndTime   string `json:"end_time" gorm:"end_time"`
+	//紧急情况,1为紧急,2为非紧急,如果没有则视为非紧急
+	Urgent int    `json:"urgent" gorm:"urgent"`
+	Notes  string `json:"notes" gorm:"notes"`
+	Status int    `json:"status" gorm:"status"`
+}
+
 type CommentDriver struct {
 	ID          int     `json:"id" gorm:"id"`
 	DriverID    string  `json:"driver_id" gorm:"driver_id"`

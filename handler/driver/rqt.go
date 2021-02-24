@@ -35,6 +35,7 @@ func ViewDriverRequirement(c *gin.Context) {
 		handler.ErrServerError(c, err2)
 	}
 	c.JSON(200, gin.H{
+		"driver_id":     tmpRt.DriverID,
 		"ymd":           tmpRt.Ymd,
 		"start_time":    tmpRt.StartTime,
 		"end_time":      tmpRt.EndTime,

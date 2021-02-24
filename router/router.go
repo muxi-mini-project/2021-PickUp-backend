@@ -33,14 +33,14 @@ func Router(r *gin.Engine) {
 
 	//司机订单
 	r.POST("/pickup/driver", driver.AddDriverRequirement)
-	r.GET("/pickup/driver/:id", driver.ViewDRequirement)
+	r.GET("/pickup/driver/:route_id", driver.ViewDRequirement)
 	r.GET("/pickup/driver", driver.ViewDriverRequirement)
 	r.DELETE("/pickup/driver", driver.DeleteDriverRequirement)
 	r.PUT("/pickup/driver/confirm", driver.DriverConfirm)
 
 	//乘客订单
 	r.POST("/pickup/passenger", passenger.AddPassengerRequirement)
-	r.GET("/pickup/passenger/route", passenger.ViewPRequirement)
+	r.GET("/pickup/passenger/:route_id", passenger.ViewPRequirement)
 	r.GET("/pickup/passenger", passenger.ViewPassengerRequirement)
 	r.DELETE("/pickup/passenger", passenger.DeletePassengerRequirement)
 
@@ -48,11 +48,11 @@ func Router(r *gin.Engine) {
 	r.PUT("/pickup/passenger/confirm", passenger.PassengerConfirm)
 
 	//获取乘客与司机的匹配度
-	r.GET("/pickup/user/match", user.MatchDegree)
+	r.GET("/pickup/user/match/:pid/:did", user.MatchDegree)
 
 	//常用路径
 	r.POST("/pickup/route", route.AddNewRoute)
 	r.GET("/pickup/route", route.ViewRoute)
-	r.DELETE("/pickup/route", route.DeleteRoute)
+	r.DELETE("/pickup/route/:route_id", route.DeleteRoute)
 
 }
