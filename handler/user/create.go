@@ -13,7 +13,7 @@ import (
 )
 
 // @Summary 注册
-// @Description 注册新用户,通过一站式登录来注册
+// @Description 注册新用户,通过一站式登录来注册,(添加信誉分score,初始注册时,每个用户都是100分)
 // @Tags user
 // @Accept json
 // @Produce json
@@ -46,6 +46,7 @@ func UserCreate(c *gin.Context) {
 		Phone:    "null",
 		Picture:  tmpLoginInfo.Sid,
 		Notes:    "null",
+		Score:    100,
 	}
 
 	ok := model.CreateUser(user)

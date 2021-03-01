@@ -450,7 +450,7 @@ var doc = `{
         },
         "/passenger/confirm": {
             "put": {
-                "description": "乘客对司机发出请求",
+                "description": "司机对接受到的订单,发出确认,注意,只能确认一个",
                 "consumes": [
                     "application/json"
                 ],
@@ -458,9 +458,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "passenger"
+                    "driver"
                 ],
-                "summary": "乘客确认",
+                "summary": "司机确认",
                 "parameters": [
                     {
                         "type": "string",
@@ -471,15 +471,15 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "司机的id",
-                        "name": "driver_id",
+                        "description": "乘客的id",
+                        "name": "passenger_id",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"msg\":\"success\",\"pid\":\"string\",\"did\":\"string\"}\" 如果成功,则发送给对应司机乘客的id",
+                        "description": "{\"msg\":\"success\",\"pid\":\"string\",\"did\":\"string\"}\" 如果成功,则将对应司机和乘客的订单存到匹配成功的数据库中,并且删除这两个订单请求.",
                         "schema": {
                             "$ref": "#/definitions/model.Res"
                         }
@@ -672,9 +672,9 @@ var doc = `{
                 }
             }
         },
-        "/user/match/:pid/did": {
+        "/user/recommend": {
             "get": {
-                "description": "显示乘客和用户,在乘客或司机查看订单,进行确认的时候进行调用",
+                "description": "显示司机与乘客的匹配度和司机订单信息,在乘客查看订单,进行确认的时候进行调用",
                 "consumes": [
                     "application/json"
                 ],
@@ -692,20 +692,6 @@ var doc = `{
                         "name": "token",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Passenger_id",
-                        "name": "pid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "driver_id",
-                        "name": "did",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -714,7 +700,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Route"
+                                "$ref": "#/definitions/model.RequireDriver"
                             }
                         }
                     },
@@ -846,7 +832,7 @@ var doc = `{
                 }
             },
             "post": {
-                "description": "注册新用户,通过一站式登录来注册",
+                "description": "注册新用户,通过一站式登录来注册,(添加信誉分score,初始注册时,每个用户都是100分)",
                 "consumes": [
                     "application/json"
                 ],
@@ -1058,6 +1044,63 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/users/report/:report_id": {
+            "put": {
+                "description": "用户举报别人",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "用户举报",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户举报别人,需要对应被举报人员的id",
+                        "name": "report_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"msg\":\"success\"}",
+                        "schema": {
+                            "$ref": "#/definitions/model.Res"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error_code\":\"00001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"20001\", \"message\":\"Fail.\"} 举报失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"Fail.\"} 失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1102,6 +1145,39 @@ var doc = `{
                     "type": "string"
                 },
                 "sid": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.RequireDriver": {
+            "type": "object",
+            "properties": {
+                "driver_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "passing_spots": {
+                    "type": "string"
+                },
+                "start_spot": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "ymd": {
+                    "description": "年月日",
                     "type": "string"
                 }
             }
@@ -1165,6 +1241,9 @@ var doc = `{
                 },
                 "picture": {
                     "type": "string"
+                },
+                "score": {
+                    "type": "integer"
                 }
             }
         },
@@ -1287,6 +1366,9 @@ var doc = `{
                 },
                 "picture": {
                     "type": "string"
+                },
+                "score": {
+                    "type": "integer"
                 }
             }
         }

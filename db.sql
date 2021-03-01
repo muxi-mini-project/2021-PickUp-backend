@@ -13,6 +13,7 @@ create table if not exists  `users`(
    `phone` varchar(100) null,
    `picture` varchar(100)  null,
    `notes` varchar(100)  null,
+   `score` int not null,
    primary key(`sid`)
 )engine=innodb default charset=utf8;
 

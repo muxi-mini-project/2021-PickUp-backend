@@ -42,6 +42,7 @@ func ViewUser(c *gin.Context) {
 		"picture":   tmpUser.Picture,
 		"phone":     tmpUser.Phone,
 		"notes":     tmpUser.Notes,
+		"score":     tmpUser.Score,
 	})
 	return
 }

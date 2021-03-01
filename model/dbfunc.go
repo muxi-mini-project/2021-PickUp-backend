@@ -316,3 +316,32 @@ func DeleteRoute(id int) error {
 
 	return nil
 }
+
+//举报扣分函数
+func Deduct(uid string) error {
+	tmpUser, err := FindUser(uid)
+	if err != nil {
+		return err
+	}
+
+	tmpUser.Score = tmpUser.Score - 10
+	err2 := Db.Self.Model(&Users{}).Where(Users{Sid: uid}).Update(&tmpUser).Error
+	if err2 != nil {
+		return err2
+	}
+	return nil
+}
+
+func FindDriverRt2(userrt RequirePassenger) (map[int]RequireDriver, error) {
+	Drt := make(map[int]RequireDriver)
+	for i := 0; i < 10; {
+		var tmpRt RequireDriver
+		err := Db.Self.Model(RequireDriver{}).Where("passingspots in (?)", userrt.StartSpot).Find(&tmpRt).Error
+		if err != nil {
+			return Drt, err
+		}
+		Drt[MatchDegree(userrt, tmpRt)] = tmpRt
+		i++
+	}
+	return Drt, nil
+}

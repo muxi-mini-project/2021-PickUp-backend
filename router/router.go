@@ -48,11 +48,14 @@ func Router(r *gin.Engine) {
 	r.PUT("/pickup/passenger/confirm", passenger.PassengerConfirm)
 
 	//获取乘客与司机的匹配度
-	r.GET("/pickup/user/match/:pid/:did", user.MatchDegree)
+	r.GET("/pickup/user/recommend", user.Recommend)
 
 	//常用路径
 	r.POST("/pickup/route", route.AddNewRoute)
 	r.GET("/pickup/route", route.ViewRoute)
 	r.DELETE("/pickup/route/:route_id", route.DeleteRoute)
+
+	//举报功能
+	r.PUT("/pickup/users/report/:report_id", user.Report)
 
 }

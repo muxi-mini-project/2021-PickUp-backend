@@ -13,6 +13,7 @@ type Users struct {
 	Phone    string `json:"phone" gorm:"gender"`
 	Picture  string `json:"picture" gorm:"picture"`
 	Notes    string `json:"notes" gorm:"notes"`
+	Score    int    `json :"score" gorm:"score"`
 }
 
 type VeUsers struct {
@@ -21,6 +22,7 @@ type VeUsers struct {
 	Phone    string `json:"phone" gorm:"gender"`
 	Picture  string `json:"picture" gorm:"picture"`
 	Notes    string `json:"notes" gorm:"notes"`
+	Score    int    `json :"score" gorm:"score"`
 }
 
 type Database struct {
