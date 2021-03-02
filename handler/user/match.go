@@ -13,7 +13,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param token header string true "token"
-// @Success 200 {array} model.RequireDriver "成功"
+// @Success 200 {array} model.VRequireDriver "成功"
 // @Failure 401 {object} handler.Error "{"error_code":"10001", "message":"Token Invalid."} 身份认证失败 重新登录"
 // @Failure 400 {object} handler.Error "{"error_code":"00001", "message":"Fail."} or {"error_code":"00002", "message":"Lack Param Or Param Not Satisfiable."}"
 // @Failure 500 {object} handler.Error "{"error_code":"30001", "message":"Fail."} 失败"

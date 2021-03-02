@@ -700,7 +700,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.RequireDriver"
+                                "$ref": "#/definitions/model.VRequireDriver"
                             }
                         }
                     },
@@ -1149,39 +1149,6 @@ var doc = `{
                 }
             }
         },
-        "model.RequireDriver": {
-            "type": "object",
-            "properties": {
-                "driver_id": {
-                    "type": "string"
-                },
-                "end_time": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "notes": {
-                    "type": "string"
-                },
-                "passing_spots": {
-                    "type": "string"
-                },
-                "start_spot": {
-                    "type": "string"
-                },
-                "start_time": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "ymd": {
-                    "description": "年月日",
-                    "type": "string"
-                }
-            }
-        },
         "model.Res": {
             "type": "object",
             "properties": {
@@ -1244,6 +1211,39 @@ var doc = `{
                 },
                 "score": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.VRequireDriver": {
+            "type": "object",
+            "properties": {
+                "driver_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "passing_spots": {
+                    "type": "string"
+                },
+                "start_spot": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "ymd": {
+                    "description": "年月日",
+                    "type": "string"
                 }
             }
         },

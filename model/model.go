@@ -57,6 +57,20 @@ type RequireDriver struct {
 	Status       int    `json:"status" gorm:"status"`
 }
 
+type VRequireDriver struct {
+	ID        int    `json:"id" gorm:"id"`
+	DriverID  string `json:"driver_id" gorm:"driver_id"`
+	StartSpot string `json:"start_spot" gorm:"start_spot"`
+	//年月日
+	Ymd          string `json:"ymd" gorm:"ymd"`
+	StartTime    string `json:"start_time" gorm:"start_time"`
+	EndTime      string `json:"end_time" gorm:"end_time"`
+	PassingSpots string `json:"passing_spots" gorm:"passing_spots"`
+	Notes        string `json:"notes" gorm:"notes"`
+	Status       int    `json:"status" gorm:"status"`
+	match        int    `json:"status"`
+}
+
 type VeRequireDriver struct {
 	StartSpot string `json:"start_spot" gorm:"start_spot"`
 	//年月日
