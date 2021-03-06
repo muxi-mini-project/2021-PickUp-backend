@@ -176,7 +176,7 @@ definitions:
       score:
         type: integer
     type: object
-host: localhost:8080
+host: 39.102.42.156
 info:
   contact: {}
   description: pickup 顺风车
@@ -489,23 +489,23 @@ paths:
     put:
       consumes:
       - application/json
-      description: 司机对接受到的订单,发出确认,注意,只能确认一个
+      description: 乘客对司机发出请求
       parameters:
       - description: token
         in: header
         name: token
         required: true
         type: string
-      - description: 乘客的id
+      - description: 司机的id
         in: path
-        name: passenger_id
+        name: driver_id
         required: true
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: '{"msg":"success","pid":"string","did":"string"}" 如果成功,则将对应司机和乘客的订单存到匹配成功的数据库中,并且删除这两个订单请求.'
+          description: '{"msg":"success","pid":"string","did":"string"}" 如果成功,则发送给对应司机乘客的id'
           schema:
             $ref: '#/definitions/model.Res'
         "400":
@@ -521,9 +521,9 @@ paths:
           description: '{"error_code":"30001", "message":"Fail."} 失败'
           schema:
             $ref: '#/definitions/handler.Error'
-      summary: 司机确认
+      summary: 乘客确认
       tags:
-      - driver
+      - passenger
   /route:
     get:
       consumes:

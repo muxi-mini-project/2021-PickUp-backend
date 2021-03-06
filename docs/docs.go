@@ -450,7 +450,7 @@ var doc = `{
         },
         "/passenger/confirm": {
             "put": {
-                "description": "司机对接受到的订单,发出确认,注意,只能确认一个",
+                "description": "乘客对司机发出请求",
                 "consumes": [
                     "application/json"
                 ],
@@ -458,9 +458,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "driver"
+                    "passenger"
                 ],
-                "summary": "司机确认",
+                "summary": "乘客确认",
                 "parameters": [
                     {
                         "type": "string",
@@ -471,15 +471,15 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "乘客的id",
-                        "name": "passenger_id",
+                        "description": "司机的id",
+                        "name": "driver_id",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"msg\":\"success\",\"pid\":\"string\",\"did\":\"string\"}\" 如果成功,则将对应司机和乘客的订单存到匹配成功的数据库中,并且删除这两个订单请求.",
+                        "description": "{\"msg\":\"success\",\"pid\":\"string\",\"did\":\"string\"}\" 如果成功,则发送给对应司机乘客的id",
                         "schema": {
                             "$ref": "#/definitions/model.Res"
                         }
@@ -1387,7 +1387,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:8080",
+	Host:        "39.102.42.156",
 	BasePath:    "/pickup",
 	Schemes:     []string{},
 	Title:       "pick up",

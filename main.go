@@ -13,7 +13,7 @@ import (
 // @version 1.0
 // @description pickup 顺风车
 
-// @host localhost:8080
+// @host 39.102.42.156
 // @BasePath /pickup
 
 // @Schemas http

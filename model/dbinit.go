@@ -8,7 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
+const dsn = "root:D43f986953f2@/PICKUP?charset=utf8&parseTime=True&loc=Local"
 
 var Db *Database
 
