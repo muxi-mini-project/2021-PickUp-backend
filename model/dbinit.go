@@ -8,17 +8,16 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-const dsn = "root:D43f986953f2@/PICKUP?charset=utf8&parseTime=True&loc=Local"
+const dns = "root:123456@/PICKUP?charset=utf8&parseTime=True"
 
 var Db *Database
 
 func getDatabase() (*gorm.DB, error) {
-	/*dns := fmt.Sprintf("%s:%s@tcp(%s)/mini_project",
+	/*dns := fmt.Sprintf("%s:%s@tcp(%s)/PICKUP",
 	viper.GetString("db.username"),
 	viper.GetString("db.password"),
 	viper.GetString("db.addr"))*/
-	//dns := fmt.Sprintf("%s:%s@tcp(localhost:3306)/mini_project", os.Getenv("DBUser"), os.Getenv("DBPassword"))
-	db, err := gorm.Open("mysql", dsn)
+	db, err := gorm.Open("mysql", dns)
 	if err != nil {
 		fmt.Print("getDatabase")
 		log.Println(err)

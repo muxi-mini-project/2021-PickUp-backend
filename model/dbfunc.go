@@ -5,8 +5,6 @@ import (
 	"log"
 	handler "pickup/handler/err"
 	"strings"
-
-	"github.com/jinzhu/gorm"
 )
 
 //const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
@@ -28,14 +26,9 @@ func CreateUser(tmpUser Users) error {
 }
 
 func Login(tmpLogin LoginInfo) int {
-	db, err := gorm.Open("mysql", dsn)
-	if err != nil {
-		fmt.Println(err)
-		return 1
-	}
 	var user Users
 	var logininfo LoginInfo
-	err1 := db.Where(&Users{Sid: tmpLogin.Sid}).Find(&user).Error
+	err1 := Db.Self.Where(&Users{Sid: tmpLogin.Sid}).Find(&user).Error
 	if err1 != nil {
 		log.Println(err1)
 		return 2

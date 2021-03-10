@@ -27,5 +27,4 @@ func main() {
 	if err := r.Run(); err != nil {
 		log.Fatal(err.Error())
 	}
-
 }
