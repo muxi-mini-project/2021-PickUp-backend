@@ -1,4 +1,3 @@
-basePath: /pickup
 definitions:
   handler.Error:
     properties:
@@ -176,12 +175,8 @@ definitions:
       score:
         type: integer
     type: object
-host: 39.102.42.156
 info:
   contact: {}
-  description: pickup 顺风车
-  title: pick up
-  version: "1.0"
 paths:
   /driver:
     delete:
@@ -681,6 +676,34 @@ paths:
       tags:
       - user
   /users:
+    delete:
+      consumes:
+      - application/json
+      description: 注销用户用户
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg":"success"}'
+          schema:
+            $ref: '#/definitions/model.Res'
+        "401":
+          description: '{"error_code":"20001", "message":"Fail."} 注销失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+        "500":
+          description: '{"error_code":"30001", "message":"用户不存在"} 失败'
+          schema:
+            $ref: '#/definitions/handler.Error'
+      summary: 注销
+      tags:
+      - user
     get:
       consumes:
       - application/json

@@ -19,6 +19,7 @@ func Router(r *gin.Engine) {
 
 	//登录
 	r.POST("/pickup/users/login", user.UserLogin)
+	r.DELETE("pickup/users", user.UserDelete)
 
 	//用户主页及其信息修改
 	r.GET("/pickup/users", user.ViewUser)

@@ -880,6 +880,48 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "注销用户用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "注销",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"msg\":\"success\"}",
+                        "schema": {
+                            "$ref": "#/definitions/model.Res"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"20001\", \"message\":\"Fail.\"} 注销失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"用户不存在\"} 失败",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    }
+                }
             }
         },
         "/users/comment": {
@@ -1386,12 +1428,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "1.0",
-	Host:        "39.102.42.156",
-	BasePath:    "/pickup",
+	Version:     "",
+	Host:        "",
+	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "pick up",
-	Description: "pickup 顺风车",
+	Title:       "",
+	Description: "",
 }
 
 type s struct{}
