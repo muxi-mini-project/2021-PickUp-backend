@@ -29,12 +29,14 @@ func UserCreate(c *gin.Context) {
 
 	if err := c.BindJSON(&tmpLoginInfo); err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 
 	tmpUser, err := model.GetUserInfoFormOne(tmpLoginInfo.Sid, tmpLoginInfo.Pwd)
 	if err != nil {
-		handler.ErrUnauthorized(c, &handler.Error{})
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 

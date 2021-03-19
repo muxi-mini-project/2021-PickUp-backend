@@ -15,7 +15,6 @@ import (
 // @Param token header string true "token"
 // @Success 200 {object} model.Users "成功"
 // @Failure 401 {object} handler.Error "{"error_code":"10001", "message":"Token Invalid."} 身份认证失败 重新登录"
-// @Failure 400 {object} handler.Error "{"error_code":"00001", "message":"Fail."} or {"error_code":"00002", "message":"Lack Param Or Param Not Satisfiable."}"
 // @Failure 500 {object} handler.Error "{"error_code":"30001", "message":"Fail."} 失败"
 // @Router /users [get]
 func ViewUser(c *gin.Context) {
@@ -27,12 +26,14 @@ func ViewUser(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	uid := token.UID
 	tmpUser, err := model.FindUser(uid)
 	if err != nil {
-		handler.ErrServerError(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 	c.JSON(200, gin.H{
@@ -68,6 +69,7 @@ func UpdateUser(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	uid := token.UID
@@ -75,10 +77,12 @@ func UpdateUser(c *gin.Context) {
 	err := c.BindJSON(&tmpchange)
 	if err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 	if err = model.Updateuser(tmpchange, uid); err != nil {
-		handler.ErrUnauthorized(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 
@@ -110,6 +114,7 @@ func UpdatePassword(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	uid := token.UID
@@ -117,12 +122,14 @@ func UpdatePassword(c *gin.Context) {
 	err := c.BindJSON(&tmpchange)
 	if err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 
 	err = model.UpdatePwd(tmpchange, uid)
 	if err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 

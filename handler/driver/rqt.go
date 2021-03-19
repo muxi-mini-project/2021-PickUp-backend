@@ -27,6 +27,7 @@ func ViewDriverRequirement(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	did := token.UID
@@ -70,6 +71,7 @@ func ViewDRequirement(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	did := token.UID

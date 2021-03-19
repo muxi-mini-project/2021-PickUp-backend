@@ -28,18 +28,21 @@ func Recommend(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	uid := token.UID
 	tmpuser, err := model.FindPassengerRt(uid)
 	if err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 
 	Drt, err3 := model.FindDriverRt2(tmpuser)
 	if err3 != nil {
-		handler.ErrBadRequest(c, err3)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 	model.EachMap(Drt, func(key int, value model.RequireDriver) {

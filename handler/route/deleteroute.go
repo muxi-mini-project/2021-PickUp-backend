@@ -28,6 +28,7 @@ func DeleteRoute(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	id := c.GetInt("id")
@@ -35,15 +36,18 @@ func DeleteRoute(c *gin.Context) {
 	route, err3 := model.FindRoute2(id)
 	if err3 != nil {
 		handler.ErrBadRequest(c, err3)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
 		return
 	}
 
 	if route.UserID != uid {
-		handler.ErrBadRequest(c, err2)
+		handler.ErrBadRequest(c, err3)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
 		return
 	}
 	if err := model.DeleteRoute(id); err != nil {
-		handler.ErrServerError(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
 		return
 	}
 

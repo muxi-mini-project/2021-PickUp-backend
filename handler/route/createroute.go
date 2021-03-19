@@ -28,6 +28,7 @@ func AddNewRoute(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	uid := token.UID
@@ -35,6 +36,7 @@ func AddNewRoute(c *gin.Context) {
 	tmproute.UserID = uid
 	if err := c.BindJSON(&tmproute); err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 	route := model.Match{
@@ -44,7 +46,8 @@ func AddNewRoute(c *gin.Context) {
 		EndTime:   tmproute.EndTime,
 	}
 	if err := model.CreateRoute(route); err != nil {
-		handler.ErrServerError(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
 		return
 	}
 

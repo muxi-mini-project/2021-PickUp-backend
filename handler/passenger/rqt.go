@@ -27,12 +27,14 @@ func ViewPassengerRequirement(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	pid := token.UID
 	tmpRt, err := model.FindPassengerRt(pid)
 	if err != nil {
-		handler.ErrServerError(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
 		return
 	}
 	c.JSON(200, gin.H{
@@ -67,11 +69,13 @@ func ViewPRequirement(c *gin.Context) {
 	route, err := model.FindRoute2(id)
 	if err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 	user, err2 := model.FindUser(route.UserID)
 	if err2 != nil {
-		handler.ErrBadRequest(c, err2)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 	c.JSON(200, gin.H{

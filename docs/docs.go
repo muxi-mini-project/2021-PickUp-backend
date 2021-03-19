@@ -754,12 +754,6 @@ var doc = `{
                             "$ref": "#/definitions/model.Users"
                         }
                     },
-                    "400": {
-                        "description": "{\"error_code\":\"00001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Error"
-                        }
-                    },
                     "401": {
                         "description": "{\"error_code\":\"10001\", \"message\":\"Token Invalid.\"} 身份认证失败 重新登录",
                         "schema": {

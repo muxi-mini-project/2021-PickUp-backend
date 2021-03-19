@@ -29,19 +29,21 @@ func DriverConfirm(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 
 	if _, err := model.FindUser(token.UID); err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Fail."})
 		return
 	}
 
 	did := token.UID
 	err := model.ConfirmD(pid, did)
 	if err != nil {
-		handler.ErrServerError(c, err)
-		//fmt.Println(2)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Fail."})
 		return
 	}
 

@@ -27,13 +27,15 @@ func DeletePassengerRequirement(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	uid := token.UID
 
 	err := model.DeletePassengerRt(uid)
 	if err != nil {
-		handler.ErrUnauthorized(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 

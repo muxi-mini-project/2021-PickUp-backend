@@ -29,11 +29,13 @@ func AddDriverRequirement(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 
 	if _, err := model.FindUser(token.UID); err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(401, gin.H{"error_code": "00001", "message": "Fail."})
 		return
 	}
 
@@ -43,18 +45,19 @@ func AddDriverRequirement(c *gin.Context) {
 	tmprequirement.Status = 1
 	if err := c.BindJSON(&tmprequirement); err != nil {
 		handler.ErrBadRequest(c, err)
-		//fmt.Println("1")
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Fail."})
 		return
 	}
 	if err := model.CreateDriverRt(tmprequirement); err != nil {
 		handler.ErrServerError(c, err)
-		//fmt.Println("2")
+		c.JSON(500, gin.H{"error_code": "30001", "message": "Fail."})
 		return
 	}
 
 	rt, err := model.FindDriverRt(tmprequirement.DriverID)
 	if err != nil {
 		handler.ErrUnauthorized(c, err)
+		c.JSON(400, gin.H{"error_code": "30001", "message": "Fail."})
 		return
 	}
 

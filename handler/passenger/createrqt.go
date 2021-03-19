@@ -28,24 +28,28 @@ func AddPassengerRequirement(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	var tmprequirement model.RequirePassenger
 	tmprequirement.PassengerID = token.UID
 	if err := c.BindJSON(&tmprequirement); err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		//fmt.Println("1")
 		return
 	}
 	if err := model.CreatePassengerRt(tmprequirement); err != nil {
-		handler.ErrServerError(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
 		//fmt.Println("2")
 		return
 	}
 
 	rt, err := model.FindPassengerRt(tmprequirement.PassengerID)
 	if err != nil {
-		handler.ErrUnauthorized(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 

@@ -27,6 +27,7 @@ func UsersComment(c *gin.Context) {
 	err := c.BindJSON(&tmpcomment)
 	if err != nil {
 		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 	tmpdriver.DriverID = tmpcomment.DriverID
@@ -73,19 +74,22 @@ func Report(c *gin.Context) {
 	//fmt.Println(token)
 	if err2 != nil {
 		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
 		return
 	}
 	uid := token.UID
 	_, err := model.FindUser(uid)
 	if err != nil {
-		handler.ErrServerError(c, err)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
 		return
 	}
 
 	err3 := model.Deduct(report_id)
 	if err3 != nil {
 		//举报失败
-		handler.ErrBadRequest(c, err3)
+		handler.ErrBadRequest(c, err)
+		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
 		return
 	}
 
