@@ -81,7 +81,7 @@ func Report(c *gin.Context) {
 	_, err := model.FindUser(uid)
 	if err != nil {
 		handler.ErrBadRequest(c, err)
-		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 
@@ -89,7 +89,7 @@ func Report(c *gin.Context) {
 	if err3 != nil {
 		//举报失败
 		handler.ErrBadRequest(c, err)
-		c.JSON(400, gin.H{"error_code": "00002", "message": "Failed"})
+		c.JSON(400, gin.H{"error_code": "00001", "message": "Failed"})
 		return
 	}
 

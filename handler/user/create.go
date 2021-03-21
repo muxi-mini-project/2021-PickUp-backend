@@ -12,7 +12,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// @Summary 注册
+// @Summary 注册和登录
 // @Description 注册新用户,通过一站式登录来注册,(添加信誉分score,初始注册时,每个用户都是100分)
 // @Tags user
 // @Accept json
@@ -53,10 +53,41 @@ func UserCreate(c *gin.Context) {
 
 	ok := model.CreateUser(user)
 	if ok != nil {
-		c.JSON(401, gin.H{
-			"msg": ok,
-		})
-		return
+		if ok.Error() != "users is exist!!" {
+			c.JSON(401, gin.H{
+				"msg": ok,
+			})
+			return
+		}
+		if ok.Error() == "users is exist!!" {
+			ok := model.Login(tmpLoginInfo)
+			if ok == 1 {
+				c.JSON(500, gin.H{
+					"msg": "database does not open successful",
+				})
+				return
+			}
+
+			if ok == 2 {
+				c.JSON(401, gin.H{
+					"msg": "user does not exist",
+				})
+				return
+			}
+
+			if ok == 3 {
+				c.JSON(401, gin.H{
+					"msg": "password does not correct",
+				})
+				return
+			}
+
+			c.JSON(200, gin.H{
+				"msg":   "success",
+				"token": produceToken(tmpLoginInfo.Sid),
+			})
+			return
+		}
 	}
 
 	c.JSON(200, gin.H{

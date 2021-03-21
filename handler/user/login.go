@@ -1,6 +1,6 @@
 package user
 
-import (
+/*import (
 	"pickup/model"
 
 	"github.com/gin-gonic/gin"
@@ -55,3 +55,4 @@ func UserLogin(c *gin.Context) {
 	})
 
 }
+*/

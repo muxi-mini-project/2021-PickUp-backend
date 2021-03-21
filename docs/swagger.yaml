@@ -765,7 +765,7 @@ paths:
             失败'
           schema:
             $ref: '#/definitions/handler.Error'
-      summary: 注册
+      summary: 注册和登录
       tags:
       - user
     put:
@@ -841,43 +841,6 @@ paths:
           schema:
             $ref: '#/definitions/handler.Error'
       summary: 用户评论
-      tags:
-      - user
-  /users/login:
-    post:
-      consumes:
-      - application/json
-      description: Login
-      parameters:
-      - description: 学号和密码
-        in: body
-        name: loginInfo
-        required: true
-        schema:
-          $ref: '#/definitions/model.LoginInfo'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"msg":"success", "token": string}'
-          schema:
-            $ref: '#/definitions/model.Res'
-        "400":
-          description: '{"error_code":"00001", "message":"Fail."} or {"error_code":"00002",
-            "message":"Lack Param Or Param Not Satisfiable."}'
-          schema:
-            $ref: '#/definitions/handler.Error'
-        "401":
-          description: '{"error_code":"20001", "message":"user does not exist"} 登录失败
-            or {"error_code":"20002", "message":"password does not correct."}'
-          schema:
-            $ref: '#/definitions/handler.Error'
-        "500":
-          description: '{"error_code":"30001", "message":"database does not open successful"}
-            失败'
-          schema:
-            $ref: '#/definitions/handler.Error'
-      summary: 登录
       tags:
       - user
   /users/password:

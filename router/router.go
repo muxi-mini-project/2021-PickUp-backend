@@ -17,8 +17,7 @@ func Router(r *gin.Engine) {
 	//此函数为一站式登录函数,若用户登录成功(首次),则将其学号和密码保存起来创造一个新用户
 	r.POST("/pickup/users", user.UserCreate)
 
-	//登录
-	r.POST("/pickup/users/login", user.UserLogin)
+	//r.POST("/pickup/users/login", user.UserLogin)
 	r.DELETE("pickup/users", user.UserDelete)
 
 	//用户主页及其信息修改

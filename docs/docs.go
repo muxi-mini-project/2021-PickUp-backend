@@ -836,7 +836,7 @@ var doc = `{
                 "tags": [
                     "user"
                 ],
-                "summary": "注册",
+                "summary": "注册和登录",
                 "parameters": [
                     {
                         "description": "学号和密码",
@@ -963,58 +963,6 @@ var doc = `{
                     },
                     "500": {
                         "description": "{\"error_code\":\"30001\", \"message\":\"Fail.\"} 失败",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/users/login": {
-            "post": {
-                "description": "Login",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "登录",
-                "parameters": [
-                    {
-                        "description": "学号和密码",
-                        "name": "loginInfo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.LoginInfo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{\"msg\":\"success\", \"token\": string}",
-                        "schema": {
-                            "$ref": "#/definitions/model.Res"
-                        }
-                    },
-                    "400": {
-                        "description": "{\"error_code\":\"00001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Error"
-                        }
-                    },
-                    "401": {
-                        "description": "{\"error_code\":\"20001\", \"message\":\"user does not exist\"} 登录失败 or {\"error_code\":\"20002\", \"message\":\"password does not correct.\"}",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "{\"error_code\":\"30001\", \"message\":\"database does not open successful\"} 失败",
                         "schema": {
                             "$ref": "#/definitions/handler.Error"
                         }
