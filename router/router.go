@@ -22,6 +22,7 @@ func Router(r *gin.Engine) {
 
 	//用户主页及其信息修改
 	r.GET("/pickup/users", user.ViewUser)
+	r.GET("pickup/users/comment", user.ViewUsersComment)
 	r.PUT("/pickup/users", user.UpdateUser)
 
 	//用户修改密码

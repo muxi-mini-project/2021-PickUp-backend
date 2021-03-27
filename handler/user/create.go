@@ -52,42 +52,36 @@ func UserCreate(c *gin.Context) {
 	}
 
 	ok := model.CreateUser(user)
-	if ok != nil {
-		if ok.Error() != "users is exist!!" {
+	if ok != 0 {
+
+		err := model.Login(tmpLoginInfo)
+		if err == 1 {
+			c.JSON(500, gin.H{
+				"msg": "database does not open successful",
+			})
+			return
+		}
+
+		if err == 2 {
 			c.JSON(401, gin.H{
-				"msg": ok,
+				"msg": "user does not exist",
 			})
 			return
 		}
-		if ok.Error() == "users is exist!!" {
-			ok := model.Login(tmpLoginInfo)
-			if ok == 1 {
-				c.JSON(500, gin.H{
-					"msg": "database does not open successful",
-				})
-				return
-			}
 
-			if ok == 2 {
-				c.JSON(401, gin.H{
-					"msg": "user does not exist",
-				})
-				return
-			}
-
-			if ok == 3 {
-				c.JSON(401, gin.H{
-					"msg": "password does not correct",
-				})
-				return
-			}
-
-			c.JSON(200, gin.H{
-				"msg":   "success",
-				"token": produceToken(tmpLoginInfo.Sid),
+		if err == 3 {
+			c.JSON(401, gin.H{
+				"msg": "password does not correct",
 			})
 			return
 		}
+
+		c.JSON(200, gin.H{
+			"msg":   "success",
+			"token": produceToken(tmpLoginInfo.Sid),
+		})
+		return
+
 	}
 
 	c.JSON(200, gin.H{

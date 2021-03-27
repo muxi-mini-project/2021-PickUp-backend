@@ -9,20 +9,18 @@ import (
 
 //const dsn = "root:123456@/PICKUP?charset=utf8&parseTime=True&loc=Local"
 
-func CreateUser(tmpUser Users) error {
+func CreateUser(tmpUser Users) int {
 
 	var tooluser Users
-	var myerr handler.Error
-	myerr.ErrorCode = "users is exist!!"
-	myerr.Message = "bad request!"
+
 	err2 := Db.Self.Where(&Users{Sid: tmpUser.Sid}).Find(&tooluser).Error
 	if err2 == nil {
-		log.Println("creat user err: ", myerr)
-		return &myerr
+
+		return 1
 	}
 	Db.Self.Create(&tmpUser)
 
-	return nil
+	return 0
 }
 
 func Login(tmpLogin LoginInfo) int {
@@ -105,7 +103,7 @@ func UpdateCommentD(tmpComment CommentDriver, uid string) error {
 		return nil
 	}
 	exist.DriverScore = (exist.DriverScore + tmpComment.DriverScore) / 2.0
-	exist.Words = exist.Words + tmpComment.Words
+	exist.Words = exist.Words + "," + tmpComment.Words
 	if err := Db.Self.Model(&CommentDriver{}).Where(CommentDriver{DriverID: uid}).Update(&exist).Error; err != nil {
 		return err
 	}
@@ -130,7 +128,7 @@ func UpdateCommentP(tmpComment CommentPassenger, uid string) error {
 		return nil
 	}
 	exist.PassengerScore = (exist.PassengerScore + tmpComment.PassengerScore) / 2.0
-	exist.Words = exist.Words + tmpComment.Words
+	exist.Words = exist.Words + "," + tmpComment.Words
 	if err := Db.Self.Model(&CommentPassenger{}).Where(CommentPassenger{PassengerID: uid}).Update(&exist).Error; err != nil {
 		return err
 	}

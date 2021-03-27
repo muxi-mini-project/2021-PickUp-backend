@@ -3,6 +3,7 @@ package user
 import (
 	handler "pickup/handler/err"
 	"pickup/model"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,6 +49,60 @@ func UsersComment(c *gin.Context) {
 	//fmt.Println(uid)
 	c.JSON(200, gin.H{
 		"msg": "success",
+	})
+}
+
+// @Summary 显示用户评论
+// @Description 显示乘客和用户评分和评论
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param token header string true "token"
+// @Success 200 {arrey}  "{"msg":"success"}"
+// @Failure 401 {object} handler.Error "{"error_code":"20001", "message":"Fail."} 评论失败
+// @Failure 400 {object} handler.Error "{"error_code":"00001", "message":"Fail."} or {"error_code":"00002", "message":"Lack Param Or Param Not Satisfiable."}"
+// @Failure 500 {object} handler.Error "{"error_code":"30001", "message":"Fail."} 失败"
+// @Router /users/comment [get]
+func ViewUsersComment(c *gin.Context) {
+	//uid := c.Param("uid")
+	var token *model.JwtClaims
+	var s string
+	s = c.GetHeader("token")
+	//fmt.Println(s)
+	token, err2 := model.VerifyToken(s)
+	//fmt.Println(token)
+	if err2 != nil {
+		handler.ErrTokenInvalid(c, err2)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
+		return
+	}
+	uid := token.UID
+
+	Comment1, err1 := model.FindCommentD(uid)
+	Comment2, err2 := model.FindCommentP(uid)
+	var words []string
+
+	if err1 != nil && err2 != nil {
+		handler.ErrBadRequest(c, err1)
+		c.JSON(401, gin.H{"error_code": "10001", "message": "Token Invalid."})
+		return
+	}
+	if err1 != nil || err2 == nil {
+		words = strings.SplitN(Comment2.Words, ",", -1)
+	} else {
+		words = strings.SplitN(Comment1.Words, ",", -1)
+	}
+	word := make(map[string]int)
+	for _, value := range words {
+		if value != "" {
+			word[value]++
+		}
+	}
+
+	//fmt.Println(uid)
+	c.JSON(200, gin.H{
+		"msg":              "success",
+		"words_and_number": word,
 	})
 }
 

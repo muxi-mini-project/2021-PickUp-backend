@@ -8,7 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-const dns = "root:123456@/PICKUP?charset=utf8&parseTime=True"
+const dns = "root:1234@/PICKUP?charset=utf8&parseTime=True"
 
 var Db *Database
 

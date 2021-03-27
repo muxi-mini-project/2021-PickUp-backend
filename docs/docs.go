@@ -1370,12 +1370,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
-	Host:        "",
-	BasePath:    "",
+	Version:     "1.0",
+	Host:        "39.102.42.156",
+	BasePath:    "/pickup",
 	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Title:       "pick up",
+	Description: "pickup 顺风车",
 }
 
 type s struct{}
